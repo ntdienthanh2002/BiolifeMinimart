@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/adminTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <h:form id="promotionInsertForm">
+            <div class="content-body">
+                <div class="container-fluid">
+                    <div class="page-titles">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item active"><a href="javascript:void(0)">Manage Promotion Details</a></li>
+                        </ol>
+                    </div>
+                    <!-- row -->
+
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Create New Promotion Detail</h4>
+                                    <a href="promotiondetails_all.xhtml" class="btn btn-rounded btn-info">
+                                        <span class="btn-icon-left text-info"><i class="fa fa-arrow-left color-info"></i></span>
+                                        Back
+                                    </a>
+                                </div>
+                                <div class="card-body">
+                                    <div class="basic-form">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label col-form-label-lg">Product</label>
+                                            <div class="col-sm-9">
+                                                <h:inputHidden id="promotionDetailsProduct" class="form-control form-control-lg" value="#{promotionDetailsMB.productList}"/>
+                                                <div class="input-group mb-3" id="listProductPromotion">
+                                                    <div id="accordion-four" class="accordion accordion-no-gutter accordion-bordered">
+                                                        <h:panelGroup id="productBox">
+                                                            <div class="accordion__item">
+                                                                <div class="accordion__header collapsed" data-toggle="collapse" data-target="#bordered_no-gutter_collapseOne">
+                                                                    <span class="accordion__header--text"><h:outputText value="#{promotionDetailsMB.productList.size()} product selected"/></span>
+                                                                    <span class="accordion__header--indicator style_two"></span>
+                                                                </div>
+                                                                <div id="bordered_no-gutter_collapseOne" class="collapse accordion__body" data-parent="#accordion-four">
+                                                                    <div class="accordion__body--text"><div class="basic-list-group">
+                                                                            <ul class="list-group list-group-flush">
+                                                                                <ui:repeat value="#{promotionDetailsMB.showListSelectedProduct()}" var="itemP">
+                                                                                    <li class="list-group-item" style="padding: 0.5rem 1rem;">
+                                                                                        <h:graphicImage url="#{itemP.productImage}" width="50" height="50" style="margin-right: 10px;"/>
+                                                                                        <h:outputText value="#{itemP.productName}"/>
+                                                                                    </li>
+                                                                                </ui:repeat>
+                                                                                <h:panelGroup id="noProduct" style="#{promotionDetailsMB.productList.size() > 0 ? 'display: none' : ''}">
+                                                                                    <tr class="minicart-empty" style="border: none;">
+                                                                                        <td colspan="4">
+                                                                                            No product selected
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                </h:panelGroup>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </h:panelGroup>
+                                                    </div>
+                                                    <div class="input-group-append">
+                                                        <button type="button" id="btnSelectProduct" class="btn btn-primary mb-2 col-12" data-toggle="modal" data-target=".bd-example-modal-lg">Select</button>
+                                                    </div>
+                                                </div>
+                                                <h:outputText value="#{promotionDetailsMB.productMessage}" class="errorMessage" id="productMessage"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label col-form-label-lg">Discount</label>
+                                            <div class="col-sm-9">
+                                                <h:inputText id="promotionDetailsDiscount" class="form-control form-control-lg" value="#{promotionDetailsMB.discount}"/>
+                                                <h:outputText value="#{promotionDetailsMB.discountMessage}" class="errorMessage" id="discountMessage"/>
+                                            </div>
+                                        </div>
+                                        <h:commandLink id="btnSavePromotion" value="Create" type="submit" class="btn btn-primary mb-2 col-12">
+                                            <f:ajax execute="@this promotionDetailsDiscount" listener="#{promotionDetailsMB.insertPromotion()}" render="productMessage discountMessage" />
+                                        </h:commandLink>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Select Product</h5>
+                            <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p:dataTable id="productList" var="product" value="#{promotionDetailsMB.showNoPromotionProduct()}"
+                                         selection="#{promotionDetailsMB.productList}" rowKey="#{product.productID}"
+                                         style="margin-bottom:0" paginator="true" selectionPageOnly="false">
+                                <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+                                <p:column headerText="Name">
+                                    <h:outputText value="#{product.productName}" />
+                                </p:column>
+
+                                <p:column headerText="Category">
+                                    <h:outputText value="#{product.categoryID.categoryName}" />
+                                </p:column>
+
+                                <p:column headerText="Unit Price">
+                                    <h:outputText value="#{product.productUnitPrice}">
+                                        <f:convertNumber type="currency" locale="en_US"/>
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column headerText="Image">
+                                    <img src="#{product.productImage}" alt="biolife product" width="40" height="40"/>
+                                </p:column>
+                            </p:dataTable>
+                        </div>
+                        <div class="modal-footer">
+                            <h:inputText id="productString" value="#{promotionDetailsMB.productString}" style="display: none;"/>
+                            <button type="button" onclick="closeModalProduct();" class="btn btn-primary">Close</button>
+                            <h:commandLink id="btnClose" onclick="close();" action="#{promotionDetailsMB.reloadView()}" value="Close" class="btn btn-primary" style="display: none;">
+                                <f:ajax execute="@form" render="promotionInsertForm"/>
+                            </h:commandLink>
+                            <button type="button" class="btn btn-primary light closeModal" data-dismiss="modal" style="display: none;">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script>
+                $('#productList div.ui-datatable-tablewrapper table').DataTable();
+            </script>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

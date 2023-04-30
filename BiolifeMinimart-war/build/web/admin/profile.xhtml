@@ -1,0 +1,183 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/adminTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <div class="content-body">
+            <div class="container-fluid">
+                <div class="page-titles">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active"><a href="javascript:void(0)">Profile</a></li>
+                    </ol>
+                </div>
+                <!-- row -->
+
+                <div class="row">
+                    <div class="col-xl">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="profile-tab">
+                                    <div class="custom-tab-1">
+                                        <ul class="nav nav-tabs">
+                                            <li class="nav-item"><a href="#personal" data-toggle="tab" class="nav-link active show">Personal Information</a>
+                                            </li>
+                                            <li class="nav-item"><a href="#password" data-toggle="tab" class="nav-link">Change Password</a>
+                                            </li>
+                                        </ul>
+                                        <div class="tab-content">
+                                            <div id="personal" class="tab-pane fade active show">
+                                                <div class="pt-3">
+                                                    <div class="settings-form">
+                                                        <h:form prependId="false" id="fPersonal" enctype="multipart/form-data">
+                                                            <div class="form-row">
+                                                                <div class="form-group col-md-6">
+                                                                    <label>FullName</label>
+                                                                    <h:inputText value="#{employeeMB.employee.employeeFullname}" id="name"  class="form-control" required="true" requiredMessage="Please enter fullname"/>
+                                                                    <h:message for="name" class="errorMessage" id="name_m" />
+                                                                </div>
+                                                                <div class="form-group col-md-6">
+                                                                    <label>Username</label>
+                                                                    <h:inputText value="#{employeeMB.employee.employeeUsername}" id="uname" readonly="true" class="form-control"/>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-row">
+                                                                <div class="form-group col-md-6">
+                                                                    <label>Email</label>
+                                                                    <h:inputText value="#{employeeMB.employee.employeeEmail}" id="email" readonly="true" class="form-control"/>
+                                                                </div>
+                                                                <div class="form-group col-md-6">
+                                                                    <label>Phone</label>
+                                                                    <h:inputText value="#{employeeMB.employee.employeePhone}" id="phone" readonly="true" class="form-control"/>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-row">
+                                                                <div class="form-group  col-md-6">
+                                                                    <label>Gender</label>
+                                                                    <h:selectOneRadio  id="gender" value="#{employeeMB.employee.employeeGender}"  class="radio-inline">
+                                                                        <f:selectItem itemValue="0" itemLabel="Male &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"/> 
+                                                                        <f:selectItem itemValue="1" itemLabel="Female &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"/>
+                                                                        <f:selectItem itemValue="2" itemLabel="Other"/>
+                                                                    </h:selectOneRadio>
+                                                                </div>
+                                                                <div class="form-group col-md-6 text-center">
+                                                                    </div>
+                                                            </div>
+                                                            <div class="form-row">
+                                                                <div class="form-group  col-md-6">
+                                                                    <label>Address</label>
+                                                                    <h:inputText value="#{employeeMB.employee.employeeAddress}" id="address" class="form-control"/>
+                                                                    <h:message for="address" id="address_m" class="errorMessage" />
+                                                                </div>
+                                                                <div class="form-group col-md-6 text-center">
+                                                                    <div class="profile-photo">
+                                                                        <img src="#{employeeMB.employee.employeeAvatar}" id="displayAvt" onclick="ChangeImageEmp();" alt="" width="150px"/>
+                                                                    </div>
+                                                                    <i>( Click avatar  image for change )</i>
+                                                                    <h:inputFile id="imgFileEmp" class="form-control" value="#{employeeMB.file}"  onchange="showAvtEmployee();" style="visibility: hidden"/>
+                                                                </div>
+                                                            </div>
+                                                            <h:commandButton type="submit" value="Save" action="#{employeeMB.updatePersonal()}" class="btn btn-primary mb-2 col-12">
+                                                                <f:ajax execute="@form" render="name_m address_m"/>
+                                                            </h:commandButton>
+                                                            <h:inputHidden value="#{employeeMB.employee.employeeStatus}"/>
+                                                        </h:form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="password" class="tab-pane fade">
+                                                <div class="pt-3">
+                                                    <div class="settings-form">
+                                                        <h:form id="f_changepass">
+                                                            <div class="form-row">
+                                                                <div class="form-group col-12">
+                                                                    <label>Old Password</label>
+                                                                    <h:inputSecret value="#{employeeMB.pword}" class="form-control" id="pword"/>
+                                                                    <h:message id="pword_m" for="pword" class="errorMessage"/>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-row">
+                                                                <div class="form-group col-12">
+                                                                    <label>New Password</label>
+                                                                    <h:inputSecret value="#{employeeMB.passNew}" class="form-control" id="passnew"/>
+                                                                    <h:message id="passnew_m" for="passnew" class="errorMessage"/>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-row">
+                                                                <div class="form-group col-12">
+                                                                    <label>Confirm Password</label>
+                                                                    <h:inputSecret value="#{employeeMB.passConf}" class="form-control" id="passconf"/>
+                                                                    <h:message id="passconf_m" for="passconf" class="errorMessage"/>
+                                                                </div>
+                                                            </div>
+                                                            <h:panelGroup id="mess_m">
+                                                                <div class="form-group">
+                                                                    <h:outputText value="#{employeeMB.message}" class="errorMessage"/>
+                                                                </div>
+                                                                #{employeeMB.message=""}
+                                                            </h:panelGroup>
+                                                            <div class="form-group">
+                                                                <h:commandButton type="submit" value="Change Password" action="#{employeeMB.changePassword()}" class="btn btn-primary mb-2 col-12">
+                                                                    <f:ajax execute="@form" render="pword_m passnew_m passconf_m mess_m"/>
+                                                                </h:commandButton>
+                                                            </div>
+                                                        </h:form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="replyModal">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Post Reply</h5>
+                                                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form>
+                                                        <textarea class="form-control" rows="4">Message</textarea>
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-danger light" data-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-primary">Reply</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            function ChangeImageEmp() {
+                // alert("click click");
+                document.getElementById("imgFileEmp").click();
+            }
+            function showAvtEmployee() {
+                var fileSelected = document.getElementById('imgFileEmp').files;
+                if (fileSelected.length > 0) {
+                    var fileToLoad = fileSelected[0];
+                    var fileReader = new FileReader();
+                    fileReader.onload = function (fileLoaderEvent) {
+                        var srcData = fileLoaderEvent.target.result;
+                        var showImage = document.getElementById('displayAvt');
+                        showImage.src = srcData;
+                        document.getElementById('displayAvt').innerHTML = showImage.outerHTML;
+                    }
+                    fileReader.readAsDataURL(fileToLoad);
+                }
+            }
+        </script>
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/adminTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <f:metadata>
+        <f:viewParam name="promotionID" value="#{promotionDetailsMB.promotionID}"/>
+    </f:metadata>
+    <ui:define name="content">
+        <div class="content-body">
+            <div class="container-fluid">
+                <div class="page-titles">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active"><a href="javascript:void(0)">Manage Promotion Details</a></li>
+                    </ol>
+                </div>
+                <!-- row -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <h:form id="promotionDetailsForm">
+                                <div class="card-header">
+                                    <h4 class="card-title">List of Promotion Details</h4>
+                                    <h:commandLink id="createPromotion" action="#{promotionDetailsMB.loadInsertForm()}" class="btn btn-rounded btn-info">
+                                        <span class="btn-icon-left text-info"><i class="fa fa-plus color-info"></i></span>
+                                        Create New
+                                    </h:commandLink>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table id="promotionTbl" class="display min-w850">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Product Name</th>
+                                                    <th>Discount</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <ui:repeat value="#{promotionDetailsMB.showPromotionDetailsByPromotion()}" id="listPromotionDetails" var="itemPromotionDetails" varStatus="status">
+                                                    <tr>
+                                                        <td>
+                                                            <h:outputText value="#{status.index + 1}"/>
+                                                        </td>
+                                                        <td>
+                                                            <h:outputText value="#{itemPromotionDetails.productID.productName}"/>
+                                                        </td>
+                                                        <td>
+                                                            <h:outputText value="#{itemPromotionDetails.promotionDetailsDiscount}"/>
+                                                        </td>
+                                                        <td>
+                                                            <div class="d-flex">
+                                                                <h:commandLink title="Update" type="submit" action="#{promotionDetailsMB.loadUpdateForm(itemPromotionDetails.promotionDetailsID)}" class="btn btn-primary shadow btn-xs sharp mr-1 fa fa-pencil"/>
+                                                                <h:commandLink onclick="deletePromotionDetails(#{itemPromotionDetails.promotionDetailsID}, #{status.index});" title="Delete" class="btn btn-danger shadow btn-xs sharp mr-1 fa fa-trash">
+                                                                    <f:ajax/>
+                                                                </h:commandLink>
+                                                                <h:commandLink id="btnDeletePromotionDetials">
+                                                                    <f:ajax event="click" listener="#{promotionDetailsMB.deletePromotionDetails(itemPromotionDetails.promotionDetailsID)}" render="promotionDetailsForm"/>
+                                                                </h:commandLink>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </ui:repeat>
+                                            </tbody>
+                                        </table>
+                                        <script>
+                                            $('#promotionTbl').DataTable({
+                                                order: [[0, 'asc']]
+                                            });
+                                        </script>
+                                    </div>
+                                </div>
+                            </h:form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>

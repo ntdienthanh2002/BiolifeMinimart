@@ -1,0 +1,343 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Biolife Minimart</title>
+        <link href="https://fonts.googleapis.com/css?family=Cairo:400,600,700&amp;amp;display=swap" rel="stylesheet"/>
+        <!--<link href="https://fonts.googleapis.com/css?family=Poppins:600&amp;amp;display=swap" rel="stylesheet"/>-->
+        <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400i,700i" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu&amp;amp;display=swap" rel="stylesheet"/>
+        <!--<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet"/>-->
+        <link rel="shortcut icon" type="image/x-icon" href="../resources/images/favicon.png"/>
+        <h:outputStylesheet name="assets/vendor/datatables/css/jquery.dataTables.min.css"/>
+        <h:outputStylesheet name="assets/vendor/summernote/summernote.css"/>
+        <h:outputStylesheet name="assets/vendor/chartist/css/chartist.min.css"/>
+        <h:outputStylesheet name="assets/vendor/bootstrap-daterangepicker/daterangepicker.css"/>
+        <h:outputStylesheet name="assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css"/>
+        <h:outputStylesheet name="assets/vendor/owl-carousel/owl.carousel.css"/>
+        <h:outputStylesheet name="assets/vendor/lightgallery/css/lightgallery.min.css"/>
+        <h:outputStylesheet name="assets/css/style.css"/>
+
+    </h:head>
+
+    <h:body>
+
+        <!--check login-->
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{employeeMB.checkLogin()}"/>
+        </f:metadata>
+
+
+        <!--*******************
+        Preloader start
+        ********************-->
+        <div id="preloader">
+            <div class="sk-three-bounce">
+                <div class="sk-child sk-bounce1"></div>
+                <div class="sk-child sk-bounce2"></div>
+                <div class="sk-child sk-bounce3"></div>
+            </div>
+        </div>
+        <!--*******************
+            Preloader end
+        ********************-->
+        <!--**********************************
+        Main wrapper start
+        ***********************************-->
+
+        <div id="main-wrapper">
+
+            <ui:insert name="top">
+                <!--**********************************
+                Nav header start
+                ***********************************-->
+                <div class="nav-header">
+                    <a href="index.html" class="brand-logo">
+                        <h:graphicImage name="assets/images/logo.png" alt="" class="logo-abbr"/>
+                        <h:graphicImage name="assets/images/logo-text.png" alt="" class="logo-compact"/>
+                        <h:graphicImage name="assets/images/logo-text.png" alt="" class="brand-title"/>
+                    </a>
+
+                    <div class="nav-control">
+                        <div class="hamburger">
+                            <span class="line"></span><span class="line"></span><span class="line"></span>
+                        </div>
+                    </div>
+                </div>
+                <!--**********************************
+                    Nav header end
+                ***********************************-->
+
+                <!--**********************************
+                Header start
+                ***********************************-->
+                <div class="header">
+                    <div class="header-content">
+                        <nav class="navbar navbar-expand">
+                            <div class="collapse navbar-collapse justify-content-between">
+                                <div class="header-left"></div>
+                                <ul class="navbar-nav header-right">
+                                    <li class="nav-item dropdown header-profile">
+                                        <a class="nav-link" href="javascript:void(0)" role="button" data-toggle="dropdown">
+                                            <img src="#{employeeMB.employee.employeeAvatar}" width="20"/> #{employeeMB.employee.employeeFullname}
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <h:link outcome="profile" class="dropdown-item ai-icon">
+                                                <svg id="icon-user1" class="text-primary" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                                                <span class="ml-2">Profile </span>
+                                            </h:link>
+                                            <h:form>
+                                                <h:commandLink class="dropdown-item ai-icon" action="#{employeeMB.logout()}">
+                                                    <svg id="icon-logout" class="text-danger" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                                                    <span class="ml-2">Logout </span>
+                                                </h:commandLink>
+                                            </h:form>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+                <!--**********************************
+                    Header end ti-comment-alt
+                ***********************************-->
+            </ui:insert>
+
+            <!--<div id="left">-->
+            <ui:insert name="left">
+                <!--**********************************
+                Sidebar start
+                ***********************************-->
+                <div class="deznav">
+                    <div class="deznav-scroll">
+                        <ul class="metismenu" id="menu">
+                            <li>
+                                <h:link outcome="dashboard" class="ai-icon">
+                                    <i class="fa fa-home"></i>
+                                    <span class="nav-text">Dashboard</span>
+                                </h:link>
+                            </li>
+                            <c:if test="#{employeeMB.employee.employeeStatus!=2}">
+                                <li>
+                                    <a class="ai-icon" href="../admin/category_all.xhtml" aria-expanded="false">
+                                        <i class="fa fa-list"></i>
+                                        <span class="nav-text">Manage Category</span>
+                                    </a>
+                                </li>
+                            </c:if>
+
+                            <c:if test="#{employeeMB.employee.employeeStatus!=1}">
+                                <li>
+                                    <a class="ai-icon" href="../admin/customer_all.xhtml" aria-expanded="false">
+                                        <i class="fa fa-users"></i>
+                                        <span class="nav-text">Manage Customer</span>
+                                    </a>
+                                </li>
+                            </c:if>
+
+                            <c:if test="#{employeeMB.employee.employeeStatus==0}">
+                                <li>
+                                    <a class="ai-icon" href="../admin/employee_all.xhtml" aria-expanded="false">
+                                        <i class="fa fa-user"></i>
+                                        <span class="nav-text">Manage Employee</span>
+                                    </a>
+                                </li>
+                            </c:if>
+                            <c:if test="#{employeeMB.employee.employeeStatus!=1}">
+                                <li>
+                                    <a class="ai-icon" href="../admin/feedback_all.xhtml" aria-expanded="false">
+                                        <i class="fa fa-comments"></i>
+                                        <span class="nav-text">Manage Feedback</span>
+                                    </a>
+                                </li>
+                            </c:if>
+                            <c:if test="#{employeeMB.employee.employeeStatus!=1}">
+                                <li>
+                                    <a class="ai-icon" href="../admin/order_all.xhtml" aria-expanded="false">
+                                        <i class="fa fa-dollar"></i>
+                                        <span class="nav-text">Manage Order</span>
+                                    </a>
+                                </li>
+                            </c:if>
+
+                            <c:if test="#{employeeMB.employee.employeeStatus!=2}">
+                                <li>
+                                    <a class="ai-icon" href="../admin/product_all.xhtml" aria-expanded="false">
+                                        <i class="fa fa-product-hunt"></i>
+                                        <span class="nav-text">Manage Product</span>
+                                    </a>
+                                </li>
+                            </c:if>
+
+                            <c:if test="#{employeeMB.employee.employeeStatus!=2}">
+                                <li>
+                                    <a class="ai-icon" href="../admin/promotion_all.xhtml" aria-expanded="false">
+                                        <i class="fa fa-arrow-down"></i>
+                                        <span class="nav-text">Manage Promotion</span>
+                                    </a>
+                                </li>
+                            </c:if>
+
+                            <c:if test="#{employeeMB.employee.employeeStatus!=2}">
+                                <li>
+                                    <a class="ai-icon" href="../admin/supplier_all.xhtml" aria-expanded="false">
+                                        <i class="fa fa-building"></i>
+                                        <span class="nav-text">Manage Supplier</span>
+                                    </a>
+                                </li>
+                            </c:if>
+                            <c:if test="#{employeeMB.employee.employeeStatus==0}">
+                                <li>
+                                    <a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+                                        <i class="fa fa-bar-chart"></i>
+                                        <span class="nav-text">Statistics</span>
+                                    </a>
+                                    <ul aria-expanded="false">
+                                        <h:form>
+                                            <li>
+                                                <h:commandLink action="#{chartJsView.resetDeliveryStatus()}">Delivery status statistics</h:commandLink>
+                                            </li>
+                                            <li>
+                                                <h:commandLink action="#{chartJsView.resetInventory()}">Inventory statistics</h:commandLink>
+                                            </li>
+                                            <li>
+                                                <h:commandLink action="#{orderMB.resetRevenueReport()}" value="Revenue statistics"/>
+                                            </li>
+                                        </h:form>
+                                    </ul>
+                                </li>
+                            </c:if>
+                        </ul>
+                    </div>
+                </div>
+                <!--**********************************
+                    Sidebar end
+                ***********************************-->
+            </ui:insert>
+            <!--</div>-->
+            <!--<div id="content" class="left_content">-->
+            <ui:insert name="content">
+
+            </ui:insert>
+            <!--</div>-->
+
+            <ui:insert name="bottom">
+                <!--**********************************
+                Footer start
+                ***********************************-->
+                <div class="footer">
+                    <div class="copyright">
+                        <p>Copyright © <a href="../admin/dashboard.xhtml">Biolife Minimart</a> 2023</p>
+                    </div>
+                </div>
+                <!--**********************************
+                    Footer end
+                ***********************************-->
+            </ui:insert>
+
+        </div>
+
+        <!--**********************************
+        Main wrapper end
+        ***********************************-->
+
+        <!--**********************************
+        Scripts
+        ***********************************-->
+        <!-- Required vendors -->
+        <h:outputScript name="assets/vendor/global/global.min.js"/>
+        <h:outputScript name="assets/vendor/bootstrap-select/dist/js/bootstrap-select.min.js"/>
+        <h:outputScript name="assets/vendor/chart.js/Chart.bundle.min.js"/>
+        <h:outputScript name="assets/js/html2canvas.js"/>
+        <h:outputScript name="assets/vendor/moment/moment.min.js"/>
+        <h:outputScript name="assets/vendor/bootstrap-daterangepicker/daterangepicker.js"/>
+        <h:outputScript name="assets/js/plugins-init/bs-daterange-picker-init.js"/>
+        <h:outputScript name="assets/js/custom.min.js"/>
+        <h:outputScript name="assets/js/deznav-init.js"/>
+        <h:outputScript name="assets/vendor/owl-carousel/owl.carousel.js"/>
+
+        <!-- Chart piety plugin files -->
+        <h:outputScript name="assets/vendor/peity/jquery.peity.min.js"/>
+
+        <!-- Apex Chart -->
+        <h:outputScript name="assets/vendor/apexchart/apexchart.js"/>
+
+        <!-- Dashboard 1 -->
+        <h:outputScript name="assets/js/dashboard/dashboard-1.js"/>
+
+        <!-- LightGallery -->
+        <h:outputScript name="assets/vendor/lightgallery/js/lightgallery-all.min.js"/>
+
+        <!--Datatable-->
+        <h:outputScript name="assets/vendor/datatables/js/jquery.dataTables.min.js"/>
+        <h:outputScript name="assets/js/plugins-init/datatables.init.js"/>
+
+        <!--SweetAlert-->
+        <script type="text/javascript" src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+        <h:outputScript name="assets/js/custom.js"/>
+
+        <!-- Summernote -->
+        <h:outputScript name="assets/vendor/summernote/js/summernote.min.js"/>
+        <h:outputScript name="assets/js/plugins-init/summernote-init.js"/>
+
+        <script>
+            function carouselReview() {
+                /*  event-bx one function by = owl.carousel.js */
+                jQuery('.event-bx').owlCarousel({
+                    loop: true,
+                    margin: 30,
+                    nav: true,
+                    center: true,
+                    autoplaySpeed: 3000,
+                    navSpeed: 3000,
+                    paginationSpeed: 3000,
+                    slideSpeed: 3000,
+                    smartSpeed: 3000,
+                    autoplay: false,
+                    navText: ['<i class="fa fa-caret-left" aria-hidden="true"></i>', '<i class="fa fa-caret-right" aria-hidden="true"></i>'],
+                    dots: true,
+                    responsive: {
+                        0: {
+                            items: 1
+                        },
+                        720: {
+                            items: 2
+                        },
+
+                        1150: {
+                            items: 3
+                        },
+
+                        1200: {
+                            items: 2
+                        },
+                        1749: {
+                            items: 3
+                        }
+                    }
+                })
+            }
+            jQuery(window).on('load', function () {
+                setTimeout(function () {
+                    carouselReview();
+                }, 1000);
+            });
+        </script>
+        <script>
+            $('#lightgallery').lightGallery({
+                loop: true,
+                thumbnail: true,
+                exThumbImage: 'data-exthumbimage'
+            });
+        </script>
+    </h:body>
+
+</html>

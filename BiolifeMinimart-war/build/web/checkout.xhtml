@@ -1,0 +1,216 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./templates/biolifeTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:p="http://primefaces.org/ui">
+    <f:metadata>
+        <f:event type="preRenderView" listener="#{customerMB.checkLogin()}"/>
+    </f:metadata>
+    <ui:define name="content">
+        <!--Hero Section-->
+        <div class="hero-section hero-background">
+            <h1 class="page-title">Check out</h1>
+        </div>
+
+        <!--Navigation section-->
+        <div class="container">
+            <nav class="biolife-nav">
+                <ul>
+                    <li class="nav-item">
+                        <h:link outcome="index" class="permal-link" value="Home"/>
+                    </li>
+                    <li class="nav-item"><span class="current-page">Check out</span></li>
+                </ul>
+            </nav>
+        </div>
+        <h:form id="form">
+            <input id="countCart" value="#{shoppingCartMB.showCart().size()}" style="display: none;"/>
+            <input id="checkReceiver" value="#{receiverMB.countReceiver(customerMB.customer.customerUsername)}" style="display: none;"/>
+            <div class="page-contain checkout">
+                <!-- Main content -->
+                <div id="main-content" class="main-content">
+                    <div class="container sm-margin-top-37px">
+                        <div class="row">
+                            <!--checkout progress box-->
+                            <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12">
+                                <div class="checkout-progress-wrap">
+                                    <ul class="steps">
+                                        <li class="step_1st">
+                                            <div class="checkout-act active">
+                                                <h3 class="title-box"><span class="number">1</span>Customer</h3>
+                                                <div class="box-content">
+                                                    <table>
+                                                        <tr>
+                                                            <td class="col-lg-3">
+                                                                <div style="overflow: hidden; width: 150px; height: 150px; border-radius: 50%;">
+                                                                    <h:graphicImage url="#{customerMB.customer.customerAvatar}"/>
+                                                                </div>
+                                                            </td>
+                                                            <td class="col-lg-9">
+                                                                <div class="box-content">
+                                                                    <p class="txt-desc">
+                                                                        <span style="font-size: smaller">Customer's name:</span><br/><h:outputText value="#{customerMB.customer.customerFullname}"/>
+                                                                    </p>
+                                                                    <p class="txt-desc">
+                                                                        <span style="font-size: smaller">Customer's phone number:</span><br/> <h:outputText value="#{customerMB.customer.customerPhone}"/>
+                                                                    </p>
+                                                                    <p class="txt-desc">
+                                                                        <span style="font-size: smaller">Customer's email:</span><br/> <h:outputText value="#{customerMB.customer.customerEmail}"/>
+                                                                    </p>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="step_2nd">
+                                            <div class="checkout-act active">
+                                                <h3 class="title-box"><span class="number">2</span>Delivery Address</h3>
+                                                <button type="button" id="change-address" data-backdrop="static" data-toggle="modal" data-target="#changeAddress" class="btn btn-bold view" style="float: right; min-width: 120px;">Change</button>
+                                                <!--<button class="btn btn-bold btnCollapse" type="submit" data-toggle="collapse" data-target="#demo" style="float: right">Change</button>-->
+                                                <div class="box-content" id="">
+                                                    <p:outputPanel id="addressDetails">
+                                                        <p class="txt-desc">Receiver's name: <span id="nameAddress"><h:outputText value="#{shoppingCartMB.selectedReceiver.receiverName}"/></span></p>
+                                                        <p class="txt-desc">Receiver's phone number: <span id="phoneAddress"><h:outputText value="#{shoppingCartMB.selectedReceiver.receiverPhone}"/></span></p>
+                                                        <p class="txt-desc">Receiver's address: <span id="addressAdd"><h:outputText value="#{shoppingCartMB.selectedReceiver.receiverAddress}"/></span></p>
+
+                                                        <h:commandButton id="addressBtn" onclick="getAddress('#{shoppingCartMB.selectedReceiver.receiverName}', '#{shoppingCartMB.selectedReceiver.receiverPhone}', '#{shoppingCartMB.selectedReceiver.receiverAddress}');" style="display: none;">
+                                                            <f:ajax/>
+                                                        </h:commandButton>
+                                                    </p:outputPanel>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="step_3rd">
+                                            <div class="checkout-act active">
+                                                <h3 class="title-box"><span class="number">3</span>Note</h3>
+                                                <div class="box-content">
+                                                    <h:inputTextarea id="orderNote" value="#{shoppingCartMB.note}" a:placeholder="Note about your order, e.g. special notes for delivery." style="width: 100%"/>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12 sm-padding-top-48px sm-margin-bottom-0 xs-margin-bottom-15px">
+                                <div class="order-summary sm-margin-bottom-80px" style="background-color: #f0f2f5;">
+                                    <div class="title-block">
+                                        <h3 class="title">Order Summary</h3>
+                                        <h:link class="link-forward" outcome="shoppingcart">
+                                            Edit cart
+                                        </h:link>
+                                    </div>
+                                    <div class="cart-list-box short-type">
+                                        <span class="number">#{shoppingCartMB.totalQuantity} items</span>
+                                        <ul class="cart-list">
+                                            <ui:repeat value="#{shoppingCartMB.showCart()}" var="itemCart" varStatus="status" id="orderList">
+                                                <li class="cart-elem elementCheckout" id="checkout#{status.index}">
+                                                    <h:commandButton id="checkoutBtn" onclick="getCheckout('#{itemCart.proName}', '#{shoppingCartMB.formatPrice(promotionMB.discountPrice(itemCart.proID))}', #{itemCart.quantity});" style="display: none;">
+                                                        <f:ajax/>
+                                                    </h:commandButton>
+                                                    <div class="cart-item">
+                                                        <div class="product-thumb">
+                                                            <h:link outcome="productdetails" class="prd-thumb">
+                                                                <figure>
+                                                                    <f:param name="id" value="#{itemCart.proID}"/>
+                                                                    <h:graphicImage url="#{itemCart.image}" width="113" height="113" alt="shop-cart"/>
+                                                                </figure>
+                                                            </h:link>
+                                                        </div>
+                                                        <div class="info">
+                                                            <span class="txt-quantity">#{itemCart.quantity}x</span>
+                                                            <h:link outcome="productdetails" class="pr-name">
+                                                                <f:param name="id" value="#{itemCart.proID}"/>
+                                                                #{itemCart.proName}
+                                                            </h:link>
+                                                        </div>
+                                                        <div class="price price-contain">
+                                                            <ins>
+                                                                <span class="price-amount">
+                                                                    <h:outputText value="#{promotionMB.discountPrice(itemCart.proID)}">
+                                                                        <f:convertNumber locale="en_US" currencySymbol="$" type="currency"/>
+                                                                    </h:outputText>
+                                                                </span>
+                                                            </ins>
+                                                            <del>
+                                                                <span class="price-amount">
+                                                                    <h:outputText value="#{promotionMB.noDiscountPrice(itemCart.proID)}">
+                                                                        <f:convertNumber locale="en_US" currencySymbol="$" type="currency"/>
+                                                                    </h:outputText>
+                                                                </span>
+                                                            </del>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ui:repeat>
+                                        </ul>
+                                        <ul class="subtotal">
+                                            <li>
+                                                <div class="subtotal-line subtotal-element">
+                                                    <b class="stt-name">Total</b>
+                                                    <span class="stt-price" style="margin-bottom: 20px;">
+                                                        <h:outputText value="#{shoppingCartMB.totalDealAmount}">
+                                                            <f:convertNumber locale="en_US" currencySymbol="$" type="currency"/>
+                                                        </h:outputText>
+                                                        <h:commandButton id="totalBtn" onclick="getTotal('#{shoppingCartMB.formatPrice(shoppingCartMB.totalDealAmount)}');" style="display: none;">
+                                                            <f:ajax/>
+                                                        </h:commandButton>
+                                                    </span>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="subtotal-line">
+                                                    <h:commandButton id="checkout" action="#{shoppingCartMB.placeOrder()}" class="btn btn-bold remove" type="submit" style="float: right; color: #fff; min-width: 154px;" value="Place Order"/>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- The Add Modal -->
+            <div class="modal fade" id="changeAddress">
+                <div class = "modal-dialog modal-lg">
+                    <div class = "modal-content">
+                        <!--Modal Header-->
+                        <div class = "modal-header">
+                            <h4 class = "modal-title" style="font-weight: bold">Delivery Address</h4>
+                        </div>
+                        <!--Modal body-->
+                        <div class = "modal-body">
+                            <p:dataTable id="addressList" styleClass="addressList" var="address" value="#{receiverMB.showEnableReceiversByCustomer(customerMB.customer.customerUsername)}" selection="#{shoppingCartMB.selectedReceiver}" rowKey="#{address.receiverID}">
+                                <p:column selectionMode="single" style="width:16px;text-align:center"/>
+                                <p:column headerText="Name">
+                                    <h:outputText value="#{address.receiverName}" />
+                                </p:column>
+                                <p:column headerText="Phone">
+                                    <h:outputText value="#{address.receiverPhone}" />
+                                </p:column>
+                                <p:column headerText="Address">
+                                    <h:outputText value="#{address.receiverAddress}" />
+                                    <h:commandButton id="addressBtn" onclick="getAddress('#{address.receiverName}', '#{address.receiverPhone}', '#{address.receiverAddress}')" style="display: none;">
+                                        <f:ajax/>
+                                    </h:commandButton>
+                                </p:column>
+                                <f:facet name="footer">
+                                    <p:commandButton id="okBtn" process="addressList" update="form:addressDetails" value="OK" onclick="closeModal();"/>
+                                    <button type="button" class="btn btn-default closeModal" data-dismiss="modal" style="display: none">Close</button>
+                                </f:facet>
+                            </p:dataTable>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+</ui:composition>

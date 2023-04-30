@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Biolife Minimart</title>
+        <link href="https://fonts.googleapis.com/css?family=Cairo:400,600,700&amp;amp;display=swap" rel="stylesheet"/>
+        <!--<link href="https://fonts.googleapis.com/css?family=Poppins:600&amp;amp;display=swap" rel="stylesheet"/>-->
+        <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400i,700i" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu&amp;amp;display=swap" rel="stylesheet"/>
+        <!--<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet"/>-->
+        <link rel="shortcut icon" type="image/x-icon" href="../resources/images/favicon.png"/>
+        <h:outputStylesheet name="assets/vendor/datatables/css/jquery.dataTables.min.css"/>
+        <h:outputStylesheet name="assets/vendor/summernote/summernote.css"/>
+        <h:outputStylesheet name="assets/vendor/chartist/css/chartist.min.css"/>
+        <h:outputStylesheet name="assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css"/>
+        <h:outputStylesheet name="assets/vendor/owl-carousel/owl.carousel.css"/>
+        <h:outputStylesheet name="assets/vendor/lightgallery/css/lightgallery.min.css"/>
+        <h:outputStylesheet name="assets/css/style.css"/>
+
+    </h:head>
+
+    <h:body class="h-100">
+        <br/> <br/>
+        <div class="authincation h-100">
+            <div class="container h-100">
+                <div class="row justify-content-center h-100 align-items-center">
+                    <div class="col-md-6">
+                        <div class="authincation-content">
+                            <div class="row no-gutters">
+                                <div class="col-xl-12">
+                                    <div class="auth-form">
+                                        <div class="text-center mb-3">
+                                            <p><img src="../resources/images/logo-biolife-1.png" alt=""/></p>
+                                        </div>
+                                        <h4 class="text-center mb-4 text-white">Sign in your account</h4>
+                                        <h:form>
+                                            <h:panelGroup id="alert_mess">
+                                                <c:if test="#{!empty employeeMB.message}">
+                                                    <h:outputText value="#{employeeMB.message}" id="mess"  class="errorMessage" style="color: red"/>
+                                                </c:if>
+                                            </h:panelGroup>
+                                            <div class="form-group">
+                                                <label class="mb-1 text-white"><strong>Username/Email/Phone</strong></label>
+                                                <h:inputText class="form-control" value="#{employeeMB.uname}" id="uname"/>
+                                                <h:message for="uname" id="uname_m" class="errorMessage"/>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="mb-1 text-white"><strong>Password</strong></label>
+                                                <h:inputSecret class="form-control" value="#{employeeMB.pword}" id="pword"/>
+                                                <h:message for="pword" id="pword_m" class="errorMessage"  />
+                                            </div>
+                                            <div class="form-row d-flex justify-content-between mt-4 mb-2">
+                                                <div class="form-group">
+                                                </div>
+                                                <div class="form-group">
+                                                    <a href="#" class="text-white" data-toggle="modal" data-target="#myModal">Forgot Password?</a>
+                                                </div>
+                                            </div>
+                                            <div class="text-center">
+                                                <h:commandButton value="Login" class="btn btn-light text-success mb-2 col-12" action="#{employeeMB.login()}">
+                                                    <f:ajax execute="@form" render="alert_mess mess uname_m pword_m"  />
+
+                                                </h:commandButton>
+                                            </div>
+                                        </h:form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- The Modal -->
+            <div class="modal fade" id="myModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">Forgot Password</h4>
+                            <button type="button" class="close" data-dismiss="modal">x</button>
+                        </div>
+                        <h:form id="f_sendotp">
+                            <!-- Modal body -->
+                            <div class="modal-body">
+                                <p class="form-group">
+                                    <label for="email">Email:<span class="requite" style="color: red;">*</span> <h:message for="email" id="email_m" style="color: red" class="errorMessage"/></label>
+                                    <h:inputText id="email" class="form-control" value="#{employeeMB.email}" required="true" requiredMessage="Please enter email"/>
+                                    <h:outputText id="mess" value="#{employeeMB.message}" class="errorMessage" style="color: red"/>
+                                </p>
+                            </div>
+
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                <h:commandButton  value="Send OTP" class="btn btn-secondary" action="#{employeeMB.sendOTP()}">
+                                    <f:ajax execute="@form" render="email_m mess"/>
+                                </h:commandButton>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!--**********************************
+            Scripts
+        ***********************************-->
+        <!-- Required vendors -->
+        <script src="../resources/assets/vendor/global/global.min.js"></script>
+        <script src="../resources/assets/js/custom.min.js"></script>
+        <script src="../resources/assets/js/deznav-init.js"></script>
+
+    </h:body>
+
+</html>

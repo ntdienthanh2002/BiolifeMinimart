@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/adminTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <div class="content-body">
+            <div class="container-fluid">
+                <div class="page-titles">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active"><a href="javascript:void(0)">Manage Product</a></li>
+                    </ol>
+                </div>
+                <!-- row -->
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Update Product</h4>
+                                <a href="product_all.xhtml" class="btn btn-rounded btn-info">
+                                    <span class="btn-icon-left text-info"><i class="fa fa-arrow-left color-info"></i></span>
+                                    Back
+                                </a>
+                            </div>
+                            <div class="card-body">
+                                <div class="basic-form">
+                                    <h:form id="insertForm" prependId="false" enctype="multipart/form-data">
+                                        <h:inputHidden value="#{productMB.idProduct}"/>
+                                        <h:inputHidden value="#{productMB.idCategory}"/>
+                                        <h:inputHidden value="#{productMB.idSupplier}"/>
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label col-form-label-lg">ID</label>
+                                            <div class="col-sm-9">
+                                                <h:inputText id="id" value="#{productMB.product.productID}" class="form-control form-control-lg" readonly="true"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label col-form-label-lg">Category
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <div class="col-sm-9">
+                                                <h:selectOneMenu value="#{productMB.idCategory}" class="form-control form-control-lg default-select">
+                                                    <f:selectItems value="#{categoryMB.showEnableCategories()}" var="itemCategory" itemValue="#{itemCategory.categoryID}" itemLabel="#{itemCategory.categoryName}"/>
+                                                </h:selectOneMenu>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label col-form-label-lg">Supplier
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <div class="col-sm-9">
+                                                <h:selectOneMenu value="#{productMB.idSupplier}" class="form-control form-control-lg default-select">
+                                                    <f:selectItems value="#{supplierMB.showEnableSuppliers()}" var="itemSupplier" itemValue="#{itemSupplier.supplierID}" itemLabel="#{itemSupplier.supplierName}"/>
+                                                </h:selectOneMenu>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label col-form-label-lg">Name
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <div class="col-sm-9">
+                                                <h:inputText id="name" value="#{productMB.product.productName}" class="form-control form-control-lg"/>
+                                                <h:outputText value="#{productMB.nameMessage}" class="errorMessage" id="name_p"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label col-form-label-lg">Quantity
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <div class="col-sm-9">
+                                                <h:inputText id="quantity" value="#{productMB.product.productQuantity}" class="form-control form-control-lg"/>
+                                                <h:outputText value="#{productMB.quantityMessage}" class="errorMessage" id="quantity_p"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label col-form-label-lg">Import Price
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <div class="col-sm-9">
+                                                <h:inputText id="importPrice" value="#{productMB.importPrice}" class="form-control form-control-lg"/>
+                                                <h:outputText value="#{productMB.importPriceMessage}" class="errorMessage" id="importPrice_p"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label col-form-label-lg">Unit Price
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <div class="col-sm-9">
+                                                <h:inputText id="unitPrice" value="#{productMB.unitPrice}" class="form-control form-control-lg"/>
+                                                <h:outputText value="#{productMB.unitPriceMessage}" class="errorMessage" id="unitPrice_p"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label col-form-label-lg">Per Unit
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <div class="col-sm-9">
+                                                <h:inputText id="perUnit" value="#{productMB.product.productQuantityPerUnit}" class="form-control form-control-lg"/>
+                                                <h:outputText value="#{productMB.perUnitMessage}" class="errorMessage" id="perUnit_p"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label col-form-label-lg">Description
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <div class="col-sm-9">
+                                                <h:inputTextarea id="description" value="#{productMB.product.productDescription}" class="form-control form-control-lg summernote"/>
+                                                <h:outputText value="#{productMB.descriptionMessage}" class="errorMessage" id="description_p"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row input-group">
+                                            <label class="col-sm-3 col-form-label col-form-label-lg">Image
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <div class="col-sm-9">
+                                                <h:inputFile id="files" value="#{productMB.file}" class="custom-file-input" style="display: none;"/>
+                                                <label for="files" id="result"><img src="#{productMB.product.productImage}" width="150px"/></label>
+                                                <h:outputText value="#{productMB.imageMessage}" class="errorMessage" id="image_p"/>
+                                            </div>
+                                        </div>
+                                        <h:commandButton type="submit" value="Save" action="#{productMB.updateProduct()}" class="btn btn-primary mb-2 col-12" title="Save">
+                                            <!--<f:ajax execute="@form" render="name_p quantity_p importPrice_p unitPrice_p perUnit_p description_p image_p"/>-->
+                                        </h:commandButton>
+                                    </h:form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>

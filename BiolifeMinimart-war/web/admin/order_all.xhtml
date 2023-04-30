@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/adminTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <f:metadata>
+        <f:event type="preRenderView" listener="#{orderMB.autoUpdateOrderStatus()}"/>
+    </f:metadata>
+    <ui:define name="content">
+        <div class="content-body">
+            <div class="container-fluid">
+                <div class="page-titles">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active"><a href="javascript:void(0)">Manage Order</a></li>
+                    </ol>
+                </div>
+                <!-- row -->
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">List of Order</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="example4" class="display min-w850">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Receiver</th>
+                                                <th>Order Date</th>
+                                                <th>Delivery Date</th>
+                                                <th>Total</th>
+                                                <th>Note</th>
+                                                <th>Status</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <c:forEach items="#{orderMB.showAllOrders()}" var="itemOrder">
+                                                <tr>
+                                                    <td>
+                                                        <h:outputText value="#{itemOrder.orderID}"/>
+                                                    </td>
+                                                    <td>
+                                                        <h:outputText value="#{itemOrder.receiverID.receiverAddress}"/>
+                                                    </td>
+                                                    <td>
+                                                        <h:outputText value="#{itemOrder.orderDate}">
+                                                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" locale="US" timeZone="GMT+7"/>
+                                                        </h:outputText>
+                                                    </td>
+                                                    <td>
+                                                        <h:outputText id="delivery" value="#{itemOrder.orderDeliveryDate}">
+                                                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" locale="US" timeZone="GMT+7"/>
+                                                        </h:outputText>
+                                                    </td>
+                                                    <td>
+                                                        <h:outputText value="#{itemOrder.orderTotal}">
+                                                            <f:convertNumber type="currency"/>
+                                                        </h:outputText>
+                                                    </td>
+                                                    <td>
+                                                        <h:outputText value="#{itemOrder.orderNote}"/>
+                                                    </td>
+                                                    <td>
+                                                        <h:form>
+                                                            <h:commandLink id="status" class="badge light #{orderMB.buttonStatus(itemOrder.orderID)}" value="#{orderMB.formatStatus(itemOrder.orderID)}" disabled="#{orderMB.disableButtonStatus(itemOrder.orderID)}">
+                                                                <f:ajax event="click" render="status" listener="#{orderMB.updateOrderStatus(itemOrder.orderID)}"/>
+                                                            </h:commandLink>
+                                                        </h:form>
+                                                    </td>
+                                                    <td>
+                                                        <h:form id="action">
+                                                            <div class="d-flex">
+                                                                <h:commandLink title="Details" type="submit" action="#{orderDetailsMB.showOrderDetailsPage(itemOrder.orderID)}" class="btn btn-light shadow btn-xs sharp mr-1 fa fa-th"/>
+                                                            </div>	
+                                                        </h:form>
+                                                    </td>
+                                                </tr>
+                                            </c:forEach>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>

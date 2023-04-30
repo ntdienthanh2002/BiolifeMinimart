@@ -1,0 +1,108 @@
+<div class="content" id="info" xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+     template="./templates/biolifeTemplate.xhtml"
+     xmlns:h="http://xmlns.jcp.org/jsf/html"
+     xmlns:f="http://xmlns.jcp.org/jsf/core"
+     xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <style>
+        .checked {
+            color: orange;
+        }
+    </style>
+    <div class="content-header">
+        <h1>Feedback</h1>
+    </div>
+    <div class="content-body">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"  id="myfeedback">
+            <h:panelGroup id="tb_feedback">
+                <script>
+                    loadDataFeedback();
+                </script>
+                <table class="table table-hover">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Order ID</th>
+                            <th>Product</th>
+                            <th>Date</th>
+                            <th>Content</th>
+                            <th>Rate</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <c:forEach items="#{feedbackMB.showAllFeedbackOrder(customerMB.customer.customerUsername)}" var="fe">
+                            <tr>
+                                <td>
+                                    <h:outputText value="#{fe.feedbackID}"/>
+                                </td>
+                                <td>
+                                    <c:if test="#{fe.orderID.orderID>0}">
+                                        <h:outputText value="#{fe.orderID.orderID}"/>
+                                    </c:if>
+                                </td>
+                                <td>
+                                    <c:if test="#{fe.productID.productID>0}">
+                                        <h:outputText value="#{fe.productID.productName}"/>
+                                    </c:if>
+                                </td>                                
+                                <td>
+                                    <h:outputText value="#{fe.feedbackDate}">
+                                        <f:convertDateTime pattern="MM/dd/yyyy" timeZone="GMT+7"/>
+                                    </h:outputText>
+                                </td>
+                                <td>
+                                    <h:outputText value="#{fe.feedbackContent}"/>
+                                </td>
+                                <td>
+                                    <div id="showStart#{fe.feedbackID}"></div>                                
+                                </td>
+                                <td>
+                                    <h:form id="deletefeedback#{fe.feedbackID}" style="margin-bottom: 0px;">
+                                        <h:commandLink onclick="deletefeedback(#{fe.feedbackID});">
+                                            <f:ajax/>
+                                            <i class="fa fa-trash"></i>
+                                        </h:commandLink>
+                                        <h:commandButton id="btndelete#{fe.feedbackID}" action="#{feedbackMB.deleteFeedbackOrder(fe.feedbackID)}" style="visibility: hidden">
+                                            <f:ajax execute="@form" render="tb_feedback"/>
+                                        </h:commandButton>
+                                    </h:form>
+                                    <script>
+                                        function deletefeedback(id) {
+                                            swal({
+                                                title: "Are you sure delete?",
+                                                icon: "warning",
+                                                buttons: true,
+                                                dangerMode: true,
+                                            }).then((willDelete) => {
+                                                if (willDelete) {
+                                                    $('#deletefeedback' + id + '\\:btndelete' + id + '').click();
+                                                }
+                                            });
+                                        }
+
+                                        var i = 0;
+                                        var str = "";
+                                        while (i != #{fe.feedbackRate}) {
+                                            i++;
+                                            str += '<span class="fa fa-star checked"></span>';
+                                        }
+                                        while (i != 5) {
+                                            i++;
+                                            str += '<span class="fa fa-star"></span>';
+                                        }
+                                        document.getElementById("showStart#{fe.feedbackID}").innerHTML = str;
+
+                                    </script>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
+            </h:panelGroup>
+            
+        </div>
+    </div>
+</div>

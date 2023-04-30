@@ -1,0 +1,174 @@
+
+<div class="content" id="info" xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+     template="./templates/biolifeTemplate.xhtml"
+     xmlns:h="http://xmlns.jcp.org/jsf/html"
+     xmlns:f="http://xmlns.jcp.org/jsf/core"
+     xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <div class="content-header">
+        <h1>Receiver</h1>
+        <button id="view-order" data-toggle="modal" data-target="#insertReceiver" class="btn btn-submit btn-bold">
+            <span class="btn-icon-left text-info"><i class="fa fa-plus color-info"></i></span>
+            Create New
+        </button>
+
+
+    </div>
+
+    <div class="content-body">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"  id="myreceivers">
+            <h:panelGroup id="tb_receiver">
+                <script>
+                    loadDataReceiver();
+                </script>
+                <table class="table table-hover">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Receiver no</th>
+                            <th>Name</th>
+                            <th>Phone</th>
+                            <th>Address</th>
+                            <th>Default</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <c:forEach items="#{receiverMB.showAllReceiver(customerMB.customer.customerUsername)}" var="r">
+                            <tr>
+                                <td>
+                                    <h:outputText value="#{r.receiverID}"/>
+                                </td>
+                                <td>
+                                    <h:outputText value="#{r.receiverName}"/>
+                                </td>
+                                <td>
+                                    <h:outputText value="#{r.receiverPhone}"/>
+                                </td>
+                                <td>
+                                    <h:outputText value="#{r.receiverAddress}"/>
+                                </td>
+                                <td>
+                                    <h:form id="defaultreceiver#{r.receiverID}" style="margin-bottom: 0px;">
+                                        <h:commandLink id="btnDefault" onclick="setdefault(#{r.receiverID})"  disabled="#{r.receiverStatus == 1 ? 'true' : 'flase'}" >
+                                            <f:ajax/>
+                                            <i class="fa fa-get-pocket"></i>
+                                        </h:commandLink>
+
+                                        <h:commandButton id="btndefault#{r.receiverID}" action="#{receiverMB.setDefaultReceiver(r.receiverID)}" style="visibility: hidden">
+                                            <f:ajax execute="@form" render="tb_receiver"/>
+                                        </h:commandButton>
+                                    </h:form>
+                                </td>
+                                <td>
+                                    <h:form  id="deletereceiver#{r.receiverID}" style="margin-bottom: 0px;">
+                                        <h:commandLink  disabled="#{r.receiverStatus == 1 ? 'true' : 'false'}" onclick="deletereceiver(#{r.receiverID});">
+                                            <f:ajax/>
+                                            <i class="fa fa-trash"></i>
+                                        </h:commandLink>
+                                        <h:commandButton id="btndelete#{r.receiverID}" action="#{receiverMB.deleteReceiver(r.receiverID)}" style="visibility: hidden">
+                                            <f:ajax execute="@form" render="tb_receiver"/>
+                                        </h:commandButton>
+                                    </h:form>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
+            </h:panelGroup>
+        </div>
+    </div>
+
+    <!-- The Receiver Modal -->
+    <div class="modal fade" id="insertReceiver">
+        <div class = "modal-dialog modal-lg">
+            <div class = "modal-content">
+                <!--Modal Header-->
+                <div class = "modal-header">
+                    <h4 class ="modal-title">Create Receiver</h4>
+                    <button type="button" class="close" data-dismiss="modal">x</button>
+                </div>
+                <!--Modal body-->
+                <h:form id="f_receiver_info">
+                    <h:panelGroup id="receiver_info">
+                        <div class = "modal-body" id="" style="padding-top: 0px">
+                            <div class="content-body order-summary" style="padding-top: 0px;">
+                                <div class="cart-list-box short-type">
+
+                                    <div class="col-xs-12" style="margin-top: 20px;">
+                                        <b class="stt-name" style="display: inline-block; font-size: 14px; line-height: 30px; color: #222222; font-weight: 700; text-transform: uppercase">Name</b><span class="requite" style="color: red;">*</span>
+                                    </div>
+                                    <div class="col-xs-12" style="float: none;">
+                                        <h:inputText value="#{receiverMB.receiver.receiverName}" class="form-control form-control-lg" id="name" required="true" requiredMessage="Please enter Receiver Name"/>
+                                        <h:message for="name" id="m_name" class="errorMessage"/>
+                                    </div>
+                                    <div class="col-xs-12" style="margin-top: 20px;">
+                                        <b class="stt-name" style="display: inline-block; font-size: 14px; line-height: 30px; color: #222222; font-weight: 700; text-transform: uppercase">Phone</b><span class="requite" style="color: red;">*</span>  
+                                    </div>
+                                    <div class="col-xs-12" style="float: none;">
+                                        <h:inputText value="#{receiverMB.receiver.receiverPhone}" class="form-control form-control-lg" id="phone" required="true" requiredMessage="Please enter Receiver Phone" />
+                                        <h:message for="phone" id="m_phone" class="errorMessage"/>
+                                    </div>
+                                    <div class="col-xs-12" style="margin-top: 20px;">
+                                        <b class="stt-name" style="display: inline-block; font-size: 14px; line-height: 30px; color: #222222; font-weight: 700; text-transform: uppercase">Address</b><span class="requite" style="color: red;">*</span>  
+                                    </div>
+                                    <div class="col-xs-12" style="float: none;">
+                                        <h:inputText value="#{receiverMB.receiver.receiverAddress}" class="form-control form-control-lg" id="address" required="true" requiredMessage="Please enter Receiver Address"/>
+                                        <h:message for="address" id="m_address" class="errorMessage"/>
+                                    </div>
+                                    <div class="col-xs-12" style="float: none;">
+                                        <h:panelGroup id="m_alert">
+                                            <div class="alert alert-success alert-dismissible fade" id="mess_receiver">
+                                                <button type="button" class="close" data-dismiss="alert">x</button>
+                                                <strong>Success!</strong> Receiver has been created successfully.
+                                            </div>
+                                            <c:if test="#{receiverMB.mess.equals('success')}">
+                                                <script>
+                                                    $("#mess_receiver").removeClass("fade");
+                                                    $("#mess_receiver").delay(1000).fadeOut(5000);
+                                                </script>
+                                                #{receiverMB.mess=""}
+                                            </c:if>
+                                        </h:panelGroup>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </h:panelGroup>
+                    <div class="modal-footer">
+                        <h:commandLink style="color: white" class="btn btn-submit btn-bold"  value="Create Receriver" action="#{receiverMB.createReciver(customerMB.customer.customerUsername)}">
+                            <f:ajax execute="@form" render="m_name m_phone m_address name phone address tb_receiver m_alert"/>
+                        </h:commandLink>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="loadDataReceiver()">Close</button>
+                    </div>
+                </h:form>
+            </div>
+        </div>
+
+
+        <script>
+            function deletereceiver(id) {
+                swal({
+                    title: "Are you sure delete?",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                }).then((willDelete) => {
+                    if (willDelete) {
+                        $('#deletereceiver' + id + '\\:btndelete' + id + '').click();
+                    }
+                });
+            }
+
+            function setdefault(id) {
+                swal({
+                    title: "Set receiver default success!!",
+                    icon: "success",
+                }).then((value) => {
+                    if (value) {
+                        $('#defaultreceiver' + id + '\\:btndefault' + id + '').click();
+                    }
+                });
+            }
+        </script>
+    </div>
+</div>

@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/adminTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <div class="content-body">
+            <div class="container-fluid">
+                <div class="page-titles">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active"><a href="javascript:void(0)">Manage Promotion</a></li>
+                    </ol>
+                </div>
+                <!-- row -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <h:form id="promotionForm">
+                                <div class="card-header">
+                                    <h4 class="card-title">List of Promotion</h4>
+                                    <h:commandLink id="createPromotion" action="#{promotionMB.loadInsertForm()}" class="btn btn-rounded btn-info">
+                                        <span class="btn-icon-left text-info"><i class="fa fa-plus color-info"></i></span>
+                                        Create New
+                                    </h:commandLink>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table id="promotionTbl" class="display min-w850">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Name</th>
+                                                    <th>Start</th>
+                                                    <th>End</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <ui:repeat value="#{promotionMB.showAllPromotion()}" id="listPromotion" var="itemPromotion" varStatus="status">
+                                                    <tr>
+                                                        <td>
+                                                            <h:outputText value="#{promotionMB.countPromotion(status.index)}"/>
+                                                        </td>
+                                                        <td>
+                                                            <h:outputText value="#{itemPromotion.promotionName}"/>
+                                                        </td>
+                                                        <td>
+                                                            <h:outputText value="#{itemPromotion.promotionStart}">
+                                                                <f:convertDateTime pattern="MM/dd/yyyy"/>
+                                                            </h:outputText>
+                                                        </td>
+                                                        <td>
+                                                            <h:outputText value="#{itemPromotion.promotionEnd}">
+                                                                <f:convertDateTime pattern="MM/dd/yyyy"/>
+                                                            </h:outputText>
+                                                        </td>
+                                                        <td>
+                                                            <div class="d-flex">
+                                                                <h:commandLink title="Update" type="submit" action="#{promotionMB.loadUpdateForm(itemPromotion.promotionID)}" class="btn btn-primary shadow btn-xs sharp mr-1 fa fa-pencil"/>
+                                                                <h:commandLink title="Details" type="submit" action="#{promotionDetailsMB.showPromotionDetails()}" class="btn btn-light shadow btn-xs sharp mr-1 fa fa-th">
+                                                                    <f:param name="promotionID" value="#{itemPromotion.promotionID}"/>
+                                                                </h:commandLink>
+                                                                <h:commandLink onclick="deletePromotion(#{itemPromotion.promotionID}, #{status.index});" title="Delete" class="btn btn-danger shadow btn-xs sharp mr-1 fa fa-trash">
+                                                                    <f:ajax/>
+                                                                </h:commandLink>
+                                                                <h:commandLink id="btnDeletePromotion">
+                                                                    <f:ajax event="click" listener="#{promotionMB.deletePromotion(itemPromotion.promotionID)}" render="promotionForm"/>
+                                                                </h:commandLink>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </ui:repeat>
+                                            </tbody>
+                                        </table>
+                                        <script>
+                                            $('#promotionTbl').DataTable({
+                                                order: [[0, 'asc']]
+                                            });
+                                        </script>
+                                    </div>
+                                </div>
+                            </h:form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>

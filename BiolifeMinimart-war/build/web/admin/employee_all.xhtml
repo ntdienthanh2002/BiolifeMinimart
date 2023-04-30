@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/adminTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <div class="content-body">
+            <div class="container-fluid">
+                <div class="page-titles">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active"><a href="javascript:void(0)">Manage Employee</a></li>
+                    </ol>
+                </div>
+                <!-- row -->
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">List of Employee</h4>
+                                <h:form>
+                                    <h:commandLink action="#{employee2MB.showInsertEmployeeForm()}" class="btn btn-rounded btn-info">
+                                        <span class="btn-icon-left text-info"><i class="fa fa-plus color-info"></i></span>
+                                        Create New
+                                    </h:commandLink>
+                                </h:form>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="example4" class="display min-w850">
+                                        <thead>
+                                            <tr>
+                                                <th>Username</th>
+                                                <th>Full Name</th>
+                                                <th>Gender</th>
+                                                <th>Email</th>
+                                                <th>Address</th>
+                                                <th>Phone Number</th>
+                                                <th>Avatar</th>
+                                                <th>Status</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <c:forEach items="#{employee2MB.showAllEmployees()}" var="itemEmployee">
+                                                <tr>
+                                                    <td>
+                                                        <h:outputText value="#{itemEmployee.employeeUsername}"/>
+                                                    </td>
+                                                    <td>
+                                                        <h:outputText value="#{itemEmployee.employeeFullname}"/>
+                                                    </td>
+                                                    <td>
+                                                        <h:outputText value="#{employee2MB.formatGender(itemEmployee.employeeUsername)}"/>
+                                                    </td>
+                                                    <td>
+                                                        <h:outputText value="#{itemEmployee.employeeEmail}"/>
+                                                    </td>
+                                                    <td>
+                                                        <h:outputText value="#{itemEmployee.employeeAddress}"/>
+                                                    </td>
+                                                    <td>
+                                                        <h:outputText value="#{itemEmployee.employeePhone}"/>
+                                                    </td>
+                                                    <td>
+                                                        <h:graphicImage value="#{itemEmployee.employeeAvatar}" width="100px"/>
+                                                    </td>
+                                                    <td>
+                                                        <h:form>
+                                                            <h:commandLink id="status" class="badge light #{employee2MB.buttonStatus(itemEmployee.employeeUsername)}" value="#{employee2MB.formatStatus(itemEmployee.employeeUsername)}">
+                                                                <f:ajax event="click" render="status" listener="#{employee2MB.updateEmployeeStatus(itemEmployee.employeeUsername)}"/>
+                                                            </h:commandLink>
+                                                        </h:form>
+                                                    </td>
+                                                    <td>
+                                                        <h:form id="action#{itemEmployee.employeeUsername}">
+                                                            <div class="d-flex">
+                                                                <h:commandLink onclick="deleteData('#{itemEmployee.employeeUsername}');" title="Delete" class="btn btn-danger shadow btn-xs sharp mr-1 fa fa-trash">
+                                                                    <f:ajax/>
+                                                                </h:commandLink>
+                                                                <h:commandButton id="btnDelete#{itemEmployee.employeeUsername}" type="submit" action="#{employee2MB.deleteEmployee(itemEmployee.employeeUsername)}" style="display: none;"/>
+                                                            </div>	
+                                                        </h:form>												
+                                                    </td>
+                                                </tr>
+                                            </c:forEach>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>

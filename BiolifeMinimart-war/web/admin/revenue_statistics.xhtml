@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/adminTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="content">
+        <div class="content-body">
+            <div class="container-fluid">
+                <div class="page-titles">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active"><a href="javascript:void(0)">Revenue Statistics</a></li>
+                    </ol>
+                </div>
+
+                <!--Content-->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <h:form id="selectStatistics" target="_blank">
+                                <div class="card-header">
+                                    <h4 class="card-title">Revenue Statistics</h4>
+                                    <div class="form-group" style="display: inherit;">
+                                        <div class="toolbar mb-4" role="toolbar" style="margin-left: 20px; margin-bottom: 0 !important;">
+                                            <h:selectOneMenu value="#{orderMB.typeReport}" class="form-control default-select btn btn-primary light">
+                                                <f:ajax listener="#{orderMB.changeTypeReport()}" render="chartView tableView"/>
+                                                <f:selectItem itemValue="chart" itemLabel="Chart"/>
+                                                <f:selectItem itemValue="table" itemLabel="Table"/>
+                                            </h:selectOneMenu>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="toolbar mb-4" role="toolbar">
+                                        <div class="btn-group mb-1">
+                                            <h:inputText id="revenueDate" class="form-control revenueDatepicker" value="#{orderMB.strDate}"/>
+                                        </div>
+                                        <div class="btn-group mb-1">
+                                            <h:commandLink type="button" value="OK" class="btn btn-primary light px-3 btnChangeDate" id="btnChangeDate">
+                                                <f:ajax execute="revenueDate" listener="#{orderMB.changeDuration()}" render="chartView tableView"/>
+                                            </h:commandLink>
+                                        </div>  
+                                        <div class="btn-group mb-1">
+                                            <button class="btn btn-primary light px-3" type="button" onclick="demoPrint();"><i class="ti-export"></i> PDF </button>
+                                        </div>  
+                                        <h:commandLink value="Test" action="#{orderMB.exportReport()}" style="display: none;" id="btnExport"/>
+                                        <h:inputText value="#{orderMB.strImage}" id="strImage" style="display: none;"/>
+                                    </div>
+                                    <h:panelGroup id="chartView">
+                                        <p:barChart id="barChart"  model="#{orderMB.barModel}" style="#{orderMB.checkType() ? '' : 'display: none'}; width: 100%; height: 500px;" widgetVar="chart"/>
+                                    </h:panelGroup>
+                                    <h:panelGroup id="tableView" style="#{orderMB.checkType() ? 'display: none' : ''}">
+                                        <div class="table-responsive">
+                                            <table id="example4" class="display min-w850">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Time</th>
+                                                        <th>Orders</th>
+                                                        <th>Total Amount</th>
+                                                        <th>Total Discount</th>
+                                                        <th>Revenue</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <ui:repeat value="#{orderMB.showListRevenue()}" var="itemRevenue">
+                                                        <tr>
+                                                            <td>
+                                                                <h:outputText value="#{itemRevenue.time}"/>
+                                                            </td>
+                                                            <td>
+                                                                <h:outputText value="#{itemRevenue.totalOrder}"/>
+                                                            </td>
+                                                            <td>
+                                                                <h:outputText value="#{itemRevenue.totalAmount}"/>
+                                                            </td>
+                                                            <td>
+                                                                <h:outputText value="#{itemRevenue.totalDiscount}"/>
+                                                            </td>
+                                                            <td>
+                                                                <h:outputText value="#{itemRevenue.revenue}"/>
+                                                            </td>
+                                                        </tr>
+                                                    </ui:repeat>
+                                                </tbody>
+                                            </table>
+                                            <script>
+                                                $('#example3, #example4, #example5').DataTable();
+                                                $('#example tbody').on('click', 'tr', function () {
+                                                    var data = table.row(this).data();
+                                                });
+                                            </script>
+                                        </div>
+                                    </h:panelGroup>
+                                </div>
+                            </h:form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/adminTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <div class="content-body">
+            <div class="container-fluid">
+                <div class="page-titles">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active"><a href="javascript:void(0)">Manage Supplier</a></li>
+                    </ol>
+                </div>
+                <!-- row -->
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">List of Supplier</h4>
+                                <h:form>
+                                    <h:commandLink action="#{supplierMB.showInsertSupplierForm()}" class="btn btn-rounded btn-info">
+                                        <span class="btn-icon-left text-info"><i class="fa fa-plus color-info"></i></span>
+                                        Create New
+                                    </h:commandLink>
+                                </h:form>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="example4" class="display min-w850">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Name</th>
+                                                <th>Address</th>
+                                                <th>Phone Number</th>
+                                                <th>Email</th>
+                                                <th>Status</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <c:forEach items="#{supplierMB.showAllSuppliers()}" var="itemSupplier">
+                                                <tr>
+                                                    <td>
+                                                        <h:outputText value="#{itemSupplier.supplierID}"/>
+                                                    </td>
+                                                    <td>
+                                                        <h:outputText value="#{itemSupplier.supplierName}"/>
+                                                    </td>
+                                                    <td>
+                                                        <h:outputText value="#{itemSupplier.supplierAddress}"/>
+                                                    </td>
+                                                    <td>
+                                                        <h:outputText value="#{itemSupplier.supplierPhone}"/>
+                                                    </td>
+                                                    <td>
+                                                        <h:outputText value="#{itemSupplier.supplierEmail}"/>
+                                                    </td>
+                                                    <td>
+                                                        <h:form>
+                                                            <h:commandLink id="status" class="badge light #{supplierMB.buttonStatus(itemSupplier.supplierID)}" value="#{supplierMB.formatStatus(itemSupplier.supplierID)}">
+                                                                <f:ajax event="click" render="status" listener="#{supplierMB.updateSupplierStatus(itemSupplier.supplierID)}"/>
+                                                            </h:commandLink>
+                                                        </h:form>
+                                                    </td>
+                                                    <td>
+                                                        <h:form id="action#{itemSupplier.supplierID}">
+                                                            <div class="d-flex">
+                                                                <h:commandLink title="Update" type="submit" action="#{supplierMB.showUpdateSupplierForm(itemSupplier.supplierID)}" class="btn btn-primary shadow btn-xs sharp mr-1 fa fa-pencil"/>
+
+                                                                <h:commandLink onclick="deleteData(#{itemSupplier.supplierID});" title="Delete" class="btn btn-danger shadow btn-xs sharp mr-1 fa fa-trash">
+                                                                    <f:ajax/>
+                                                                </h:commandLink>
+                                                                
+                                                                <h:commandButton style="display: none;" action="#{supplierMB.deleteSupplier(itemSupplier.supplierID)}" id="btnDelete#{itemSupplier.supplierID}" type="submit"/>
+                                                            </div>	
+                                                        </h:form>
+                                                    </td>
+                                                </tr>
+                                            </c:forEach>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>

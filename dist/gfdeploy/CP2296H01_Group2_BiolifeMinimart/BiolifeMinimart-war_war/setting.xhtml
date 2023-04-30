@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./templates/biolifeTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <f:metadata>
+        <f:event type="preRenderView" listener="#{customerMB.checkLogin()}"/>
+    </f:metadata>
+    <ui:define name="content">
+        <!--Hero Section-->
+        <div class="hero-section hero-background">
+            <h1 class="page-title">Setting Account</h1>
+        </div>
+
+        <!--Navigation section-->
+        <div class="container">
+            <nav class="biolife-nav">
+                <ul>
+                    <li class="nav-item">
+                        <h:link outcome="index" class="permal-link" value="Home"/>
+                    </li>
+                    <li class="nav-item"><span class="current-page">Personal information</span></li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="container my-account">
+            <div class="row">
+                <div class="col-lg-3 col-md-3" id="left-side">
+                    <div style="display: flex; align-items: center; border-bottom: 2px solid #e8e8e8; padding-bottom: 10px">
+                        <div style="overflow: hidden; width: 50px; height: 50px; border-radius: 50%;" id="acountImage">
+                            <img src="#{customerMB.customer.customerAvatar}" alt="alt"/>
+                        </div>
+                        <div style="font-weight: bold">
+                            &nbsp;&nbsp;&nbsp; #{customerMB.customer.customerFullname}
+                        </div>
+                    </div>
+                    <ul class="nav flex-column" style="padding-top: 20px">
+                        <li class="nav-item" id="show_personal"><p class="nav-link"><i class="fa fa-user" aria-hidden="true" style="font-size: large"></i>&nbsp;&nbsp;&nbsp; Personal information</p></li>
+                        <li class="nav-item" id="show_change_pass"><p class="nav-link"><i class="fa  fa-id-card" aria-hidden="true" style="font-size: large"></i>&nbsp;&nbsp;&nbsp; Change password</p></li>
+                        <li class="nav-item" id="show_order"><p class="nav-link"><i class="fa fa-shopping-basket" aria-hidden="true" style="font-size: large"></i>&nbsp;&nbsp;&nbsp; My Orders</p></li>
+                        <li class="nav-item" id="show_receiver" onclick="loadDataReceiver();"><p class="nav-link"><i class="fa fa-car" aria-hidden="true" style="font-size: large"></i>&nbsp;&nbsp;&nbsp; Receiver</p></li>               
+                        <li class="nav-item" id="show_feedback"><p class="nav-link"><i class="fa fa-newspaper-o" aria-hidden="true" style="font-size: large"></i>&nbsp;&nbsp;&nbsp; Feedback</p></li>               
+                    </ul>
+                </div>
+                <div class="col-lg-9 col-md-9" id="right-side">
+                    <div id="personal"><ui:include  src="./personal.xhtml"/></div>
+                    <div id="change_password"><ui:include src="./change_password.xhtml"/></div>
+                    <div id="myorder">
+                        <h:panelGroup id="page_order">
+                            <ui:include  src="./myorders.xhtml"/>
+                        </h:panelGroup>
+                    </div>
+                    <div id="receiver">
+                        <h:panelGroup id="page_receiver">
+                            <ui:include src="./receiver.xhtml"/>
+                        </h:panelGroup>
+                    </div>
+                    <div id="feedback">
+                        <h:panelGroup id="page_feedback">
+                            <ui:include src="./feedback.xhtml"/>
+                        </h:panelGroup></div>
+                    <!--
+                        <div id="feedback_create" ><ui:include src="./feedback_create.xhtml"/></div>
+                    -->
+                    <!--                    <div id="receiver_create" ><ui:include src="./receiver_create.xhtml"/></div>-->
+                </div>
+
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>

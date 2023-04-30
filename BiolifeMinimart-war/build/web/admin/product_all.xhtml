@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/adminTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <div class="content-body">
+            <div class="container-fluid">
+                <div class="page-titles">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active"><a href="javascript:void(0)">Manage Product</a></li>
+                    </ol>
+                </div>
+                <!-- row -->
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">List of Product</h4>
+                                <h:form>
+                                    <h:commandLink action="#{productMB.showInsertProductForm()}" class="btn btn-rounded btn-info">
+                                        <span class="btn-icon-left text-info"><i class="fa fa-plus color-info"></i></span>
+                                        Create New
+                                    </h:commandLink>
+                                </h:form>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="example4" class="display min-w850">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Category</th>
+                                                <th>Supplier</th>
+                                                <th>Name</th>
+                                                <th>Quantity</th>
+                                                <th>Import Price</th>
+                                                <th>Unit Price</th>
+                                                <th>Per Unit</th>
+                                                <th>Description</th>
+                                                <th>Image</th>
+                                                <th>Status</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <c:forEach items="#{productMB.showAllProducts()}" var="itemProduct">
+                                                <tr>
+                                                    <td>
+                                                        <h:outputText value="#{itemProduct.productID}"/>
+                                                    </td>
+                                                    <td>
+                                                        <h:outputText value="#{itemProduct.categoryID.categoryName}"/>
+                                                    </td>
+                                                    <td>
+                                                        <h:outputText value="#{itemProduct.supplierID.supplierName}"/>
+                                                    </td>
+                                                    <td>
+                                                        <h:outputText value="#{itemProduct.productName}"/>
+                                                    </td>
+                                                    <td>
+                                                        <h:outputText value="#{itemProduct.productQuantity}"/>
+                                                    </td>
+                                                    <td>
+                                                        <h:outputText value="#{itemProduct.productImportPrice}">
+                                                            <f:convertNumber type="currency"/>
+                                                        </h:outputText>
+                                                    </td>
+                                                    <td>
+                                                        <h:outputText value="#{itemProduct.productUnitPrice}">
+                                                            <f:convertNumber type="currency"/>
+                                                        </h:outputText>
+                                                    </td>
+                                                    <td>
+                                                        <h:outputText value="#{itemProduct.productQuantityPerUnit}"/>
+                                                    </td>
+                                                    <td>
+                                                        <a href="#" onclick="taghtml(#{itemProduct.productID})" class="badge light btn btn-info" data-toggle="modal" data-target=".bd-example-modal-lg#{itemProduct.productID}">Description</a>
+                                                        <div class="modal fade bd-example-modal-lg#{itemProduct.productID}" tabindex="-1" role="dialog" aria-hidden="true">
+                                                            <div class="modal-dialog modal-lg">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title">Description of #{itemProduct.productName}</h5>
+                                                                        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                                                                    </div>
+                                                                    <div class="modal-body desc-tab#{itemProduct.productID}">
+                                                                        <h:outputText value="#{itemProduct.productDescription}"/>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-danger light" data-dismiss="modal">Close</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <h:graphicImage value="#{itemProduct.productImage}" width="150px"/>
+                                                    </td>
+                                                    <td>
+                                                        <h:form>
+                                                            <h:commandLink id="status" class="badge light #{productMB.buttonStatus(itemProduct.productID)}" value="#{productMB.formatStatus(itemProduct.productID)}" disabled="#{productMB.disableButtonStatus(itemProduct.productID)}">
+                                                                <f:ajax event="click" render="status" listener="#{productMB.updateProductStatus(itemProduct.productID)}"/>
+                                                            </h:commandLink>
+                                                        </h:form>
+                                                    </td>
+                                                    <td>
+                                                        <h:form id="action#{itemProduct.productID}">
+                                                            <div class="d-flex">
+                                                                <h:commandLink title="Update" type="submit" action="#{productMB.showUpdateProductForm(itemProduct.productID)}" class="btn btn-primary shadow btn-xs sharp mr-1 fa fa-pencil"/>
+                                                                <h:commandLink title="Details" action="#{productImageMB.showProductImagePage(itemProduct.productID)}" class="btn btn-light shadow btn-xs sharp mr-1 fa fa-th"/>
+                                                                <h:commandLink onclick="deleteData(#{itemProduct.productID});" title="Delete" class="btn btn-danger shadow btn-xs sharp mr-1 fa fa-trash">
+                                                                    <f:ajax/>
+                                                                </h:commandLink>
+                                                                <h:commandButton id="btnDelete#{itemProduct.productID}" type="submit" action="#{productMB.deleteProduct(itemProduct.productID)}" style="display: none;"/>
+                                                            </div>
+                                                        </h:form>
+                                                    </td>
+                                                </tr>
+                                            </c:forEach>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>

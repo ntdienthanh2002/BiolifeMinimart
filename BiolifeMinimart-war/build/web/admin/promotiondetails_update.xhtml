@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/adminTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <h:form id="promotionUpdateForm">
+            <div class="content-body">
+                <div class="container-fluid">
+                    <div class="page-titles">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item active"><a href="javascript:void(0)">Manage Promotion Details</a></li>
+                        </ol>
+                    </div>
+                    <!-- row -->
+
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Update Promotion Details</h4>
+                                    <a href="promotiondetails_all.xhtml" class="btn btn-rounded btn-info">
+                                        <span class="btn-icon-left text-info"><i class="fa fa-arrow-left color-info"></i></span>
+                                        Back
+                                    </a>
+                                </div>
+                                <div class="card-body">
+                                    <div class="basic-form">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label col-form-label-lg">Product</label>
+                                            <div class="col-sm-9">
+                                                <h:inputText id="productName" disabled="true" class="form-control form-control-lg" value="#{promotionDetailsMB.product.productName}"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label col-form-label-lg">Discount</label>
+                                            <div class="col-sm-9">
+                                                <h:inputText id="promotionDetailsDiscount" class="form-control form-control-lg" value="#{promotionDetailsMB.discount}"/>
+                                                <h:outputText value="#{promotionDetailsMB.discountMessage}" class="errorMessage" id="discountMessage"/>
+                                            </div>
+                                        </div>
+                                        <h:commandLink id="btnSavePromotion" value="Save" type="submit" class="btn btn-primary mb-2 col-12">
+                                            <f:ajax execute="@this promotionDetailsDiscount" listener="#{promotionDetailsMB.updatePromotionDetails()}" render="productMessage discountMessage" />
+                                        </h:commandLink>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

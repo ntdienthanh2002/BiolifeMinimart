@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./templates/biolifeTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <!--Hero Section-->
+        <div class="hero-section hero-background">
+            <h1 class="page-title">Register</h1>
+        </div>
+
+        <!--Navigation section-->
+        <div class="container">
+            <nav class="biolife-nav">
+                <ul>
+                    <li class="nav-item">
+                        <h:link outcome="index" class="permal-link" value="Home"/>
+                    </li>
+                    <li class="nav-item"><span class="current-page">Register</span></li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="page-contain login-page">
+
+            <!-- Main content -->
+            <div id="main-content" class="main-content">
+                <div class="container">
+
+                    <div class="row"  style="margin-top: 30px; margin-bottom: 30px; align-items: center; display: flex;">
+                        <div class="col-lg-3 col-md-2 col-sm-2 col-xs-2">
+
+                        </div>
+                        <!--Duy Khanh start-->
+
+                        <!--Form Sign In-->
+                        <div class="col-lg-6 col-md-8 col-sm-8 col-xs-8" style="background-color: #ffffff; border-radius: 7px;box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%)">
+                            <div class="signin-container">
+                                <h:form id="registerUser"  prependId="false" enctype="multipart/form-data">
+                                    <h:panelGroup id="mess_m">
+                                        <h:outputText value="#{customerMB.mess}" class="errorMessage"/>
+                                    </h:panelGroup>
+                                    <p class="form-row user-login">
+                                        <label for="username">Username:<span class="requite" style="color: red;">*</span> <h:message for="username" id="uname_m" class="errorMessage"/></label>
+                                        <h:inputText id="username" class="txt-input" value="#{customerMB.customer.customerUsername}" required="true" requiredMessage="Please enter username"/>
+                                    </p>
+
+                                    <p class="form-row user-login">
+                                        <label for="name">Fullname:<span class="requite" style="color: red;">*</span> <h:message for="name" id="name_m" class="errorMessage"/></label>
+                                        <h:inputText id="name" class="txt-input" value="#{customerMB.customer.customerFullname}" required="true" requiredMessage="Please enter fullname"/>
+                                    </p>
+
+                                    <p class="form-row user-login">
+                                        <label for="gender">Gender:<span class="requite" style="color: red;">*</span> <h:message for="gender" id="gender_m" class="errorMessage"/></label>   
+                                        <h:selectOneRadio id="gender" value="#{customerMB.gender}">
+                                            <f:selectItem itemValue="0" itemLabel="Male"/>
+                                            <f:selectItem itemValue="1" itemLabel="Female"/>
+                                            <f:selectItem itemValue="2" itemLabel="Other"/>
+                                        </h:selectOneRadio>
+                                    </p>
+
+                                    <p class="form-row user-login">
+                                        <label for="phone">Phone:<span class="requite" style="color: red;">*</span> <h:message for="phone" id="phone_m" class="errorMessage"/></label>
+                                        <h:inputText id="phone" class="txt-input" value="#{customerMB.customer.customerPhone}" required="true" requiredMessage="Please enter phone"/>
+                                    </p>
+
+                                    <p class="form-row user-login">
+                                        <label for="email">Email:<span class="requite" style="color: red;">*</span> <h:message for="email" id="email_m" class="errorMessage"/></label>
+                                        <h:inputText id="email" class="txt-input" value="#{customerMB.customer.customerEmail}" required="true" requiredMessage="Please enter email"/>
+                                    </p>
+                                    <p class="form-row user-login">
+                                        <label for="password">Password:<span class="requite" style="color: red;">*</span> <h:message for="password" id="pword_m" class="errorMessage"/></label>
+                                        <h:inputSecret id="password" class="txt-input" value="#{customerMB.customer.customerPassword}" redisplay="true" required="true" requiredMessage="Please enter password"/>
+                                    </p>
+                                    <p class="form-row user-login">
+                                        <label for="cfpassword">Confirm Password:<span class="requite" style="color: red;">*</span> <h:message for="cfpassword" id="conf_m" class="errorMessage"/></label>
+                                        <h:inputSecret id="cfpassword" class="txt-input" value="#{customerMB.passConf}" redisplay="true"/>
+                                    </p> 
+
+                                    <p class="form-row user-login">
+
+                                        <label for="avatar">Avatar:</label>
+                                        <i>( Click avatar  image for change )</i>
+                                        <h:inputFile id="uploadAvt" class="txt-input" value="#{customerMB.file}"    onchange="showImage()" style="visibility: hidden"/>
+
+                                        <img src="#{customerMB.customer.customerAvatar}" onclick="clickImage();" id="displayAvt" height="150px" width="150px"/>
+                                    </p>
+                                    <p class="form-row wrap-btn">
+
+                                        <h:commandButton class="btn btn-submit btn-bold" type="submit" value="sign up" style="margin-top: 0px;" action="#{customerMB.register()}">
+                                            <f:ajax execute="@form" render="uname_m name_m gender_m phone_m email_m pword_m conf_m mess_m"/>
+                                        </h:commandButton>
+
+                                        Do you already have an account?
+                                        <h:link outcome="login" class="link-to-help" style="vertical-align: unset; margin-left: 5px;" value="Sign in"/>
+                                    </p>
+                                </h:form>
+                            </div>
+                        </div>
+
+                        <!--Duy Khanh end-->
+                        <div class="col-lg-3 col-md-2 col-sm-2 col-xs-2">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            function  clickImage() {
+                $("#uploadAvt").click();
+            }
+        </script>
+    </ui:define>
+
+</ui:composition>

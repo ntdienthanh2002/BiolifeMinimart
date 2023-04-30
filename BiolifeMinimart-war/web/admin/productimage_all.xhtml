@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/adminTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+    <f:metadata>
+        <f:viewParam name="idP" value="#{productImageMB.idProduct}"/>
+    </f:metadata>
+    <ui:define name="content">
+        <div class="content-body">
+            <div class="container-fluid">
+                <div class="page-titles">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active"><a href="javascript:void(0)">Manage Product Image</a></li>
+                    </ol>
+                </div>
+                <!-- row -->
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">List of Product Image</h4>
+                                <a href="product_all.xhtml" class="btn btn-rounded btn-info">
+                                    <span class="btn-icon-left text-info"><i class="fa fa-arrow-left color-info"></i></span>
+                                    Back
+                                </a>
+                            </div>
+                            <div class="card-body pb-1">
+                                <h:inputHidden value="#{productImageMB.idProduct}"/>
+                                <div id="lightgallery" class="row">
+                                    <c:forEach items="#{productImageMB.showProductImageByProductID()}" var="itemProductImage">
+                                        <a href="#{itemProductImage.productImagePath}" data-exthumbimage="#{itemProductImage.productImagePath}" data-src="#{itemProductImage.productImagePath}" class="col-lg-3 col-md-6 mb-4">
+                                            <img src="#{itemProductImage.productImagePath}" alt="" style="width: 150px;"/>
+                                        </a>
+                                    </c:forEach>
+                                </div>
+                                <hr/>
+                                <h:form id="insertForm" prependId="false" enctype="multipart/form-data">
+                                    <h:inputHidden value="#{productImageMB.idProduct}"/>
+                                    <div class="form-group row input-group">
+                                        <label class="col-sm-3 col-form-label col-form-label-lg">Image
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <div class="col-sm-9">
+                                            <h:inputFile id="files" value="#{productImageMB.file}" class="custom-file-input" a:multiple="true" style="display: none;"/>
+                                            <label for="files" id="result"><img src="../resources/assets/images/photo-camera-gray.svg" width="150px"/></label> 
+                                            <h:outputText value="#{productImageMB.fileMessage}" class="errorMessage" id="file_pi"/>
+                                        </div>
+                                    </div>
+                                    <h:commandButton type="submit" value="Create" action="#{productImageMB.insertProductImage()}" class="btn btn-primary mb-2 col-12" title="Create">
+                                        <!--<f:ajax execute="@form" render="file_pi"/>-->
+                                    </h:commandButton>
+                                </h:form>
+
+                                <br/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>

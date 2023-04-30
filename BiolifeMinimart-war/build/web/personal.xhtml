@@ -1,0 +1,74 @@
+<div class="content" id="info" xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./templates/biolifeTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <div class="content-header"><h1>Personal Information</h1></div>
+
+    <div class="content-body">
+        <h:form class="form-horizontal" prependId="false" enctype="multipart/form-data">
+            <div class="col-lg-8 col-md-8">
+                <div class="form-group">
+                    <label class="control-label col-sm-3" for="info_username">Username</label>
+                    <div class="col-sm-9"> 
+                        <h:inputText class="form-control" id="info_username"  readonly="true" required="true" value="#{customerMB.customer.customerUsername}"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-3" for="info_email">Email</label>
+                    <div class="col-sm-9">
+                        <h:inputText class="form-control" id="info_email" readonly="true" required="true"  value="#{customerMB.customer.customerEmail}"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-3" for="info_phone">Phone</label>
+                    <div class="col-sm-9">
+                        <h:inputText  class="form-control" id="info_phone" readonly="true" required="true"  value="#{customerMB.customer.customerPhone}"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-3" for="info_name">Fullname</label>
+                    <div class="col-sm-9"> 
+                        <h:inputText class="form-control" id="info_name"  required="true" value="#{customerMB.customer.customerFullname}"/>
+                        <h:message for="info_name" id="name_m" class="errorMessage"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-3" for="info_gender">Gender</label>
+                    <div class="col-sm-9" style="display: flex">
+                        <h:selectOneRadio id="gender" value="#{customerMB.gender}">
+                            <f:selectItem itemValue="0" itemLabel="Male"/>
+                            <f:selectItem itemValue="1" itemLabel="Female"/>
+                            <f:selectItem itemValue="2" itemLabel="Other"/>
+                        </h:selectOneRadio>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4" style="align-items: center; display: flex; flex-direction: column;">
+                <div style="align-items: center; border-bottom: 2px solid #e8e8e8; padding-bottom: 10px; display: flex;">
+                    <div style="overflow: hidden; width: 150px; height: 150px; border-radius: 50%; margin: auto;">
+                        <img src="#{customerMB.customer.customerAvatar}" id="displayAvt" onclick="clickImage();" alt="alt"/>
+                    </div>
+                </div>
+                <i>( Click avatar  image for change )</i>
+                <!--<div style="">-->
+                <h:inputFile id="uploadAvt" class="txt-input" value="#{customerMB.file}" style="visibility: hidden"    onchange="showImage()"/>
+                <!--</div>-->
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-9">
+                    <h:commandButton type="submit" value="Save" id="submitInfo" class="btn btn-submit btn-bold"  style="min-width: 132px" action="#{customerMB.updatePersonal()}">
+                        <f:ajax execute="@form" render="name_m"/>
+                    </h:commandButton>
+                </div>
+            </div>
+        </h:form>
+        <script>
+            function clickImage(){
+                $("#uploadAvt").click();
+            }
+        </script>
+    </div>
+</div>
+

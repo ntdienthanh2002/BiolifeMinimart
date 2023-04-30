@@ -1,0 +1,403 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./templates/biolifeTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:p="http://primefaces.org/ui">
+    <f:metadata>
+        <f:viewParam name="id" value="#{productMB.productIDDetails}"/>
+        <f:viewParam name="id" value="#{feedbackMB.idProduct}"/>
+    </f:metadata>
+    <ui:define name="content">
+        <!--Hero Section-->
+        <div class="hero-section hero-background">
+            <h1 class="page-title">Product Details</h1>
+        </div>
+
+        <!--Navigation section-->
+        <div class="container">
+            <nav class="biolife-nav">
+                <h:form>
+                    <ul>
+                        <li class="nav-item">
+                            <h:link outcome="index" class="permal-link" value="Home"/>
+                        </li>
+                        <li class="nav-item">
+                            <a class="permal-link" value="Products" onclick="redirectProducts();" href="#">Products</a>
+                        </li>
+                        <li class="nav-item">
+                            <h:commandLink class="permal-link" action="#{productMB.resetListProduct()}" value="#{productMB.findCategoryProductDetails(productMB.findProductCategory(productMB.productIDDetails))}">
+                                <f:param name="category" value="#{productMB.findProductCategory(productMB.productIDDetails)}"/>
+                                <f:param name="page" value="1"/>
+                            </h:commandLink>
+                        </li>
+                        <li class="nav-item"><span class="current-page"><h:outputText value="#{productMB.findProductDetailsName(productMB.productIDDetails)}"/></span></li>
+                    </ul>
+                </h:form>
+            </nav>
+        </div>
+
+        <div class="page-contain single-product">
+            <div class="container">
+
+                <!-- Main content -->
+                <div id="main-content" class="main-content">
+                    <ui:repeat value="#{productMB.showProductDetails()}" var="itemP" id="productDetails">
+                        <!-- summary info -->
+                        <div class="sumary-product single-layout">
+                            <div class="media">
+                                <ul class="biolife-carousel slider-for" data-slick='{"arrows":false,"dots":false,"slidesMargin":30,"slidesToShow":1,"slidesToScroll":1,"fade":true,"asNavFor":".slider-nav"}'>
+                                    <li>
+                                        <h:graphicImage url="#{itemP.productImage}" width="500" height="500" alt=""/>
+                                    </li>
+                                    <ui:repeat value="#{productMB.showProductImages(itemP.productID)}" var="imageP">
+                                        <li>
+                                            <h:graphicImage url="#{imageP.productImagePath}" width="500" height="500" alt=""/>
+                                        </li>
+                                    </ui:repeat>
+                                </ul>
+                                <ul class="biolife-carousel slider-nav" data-slick='{"arrows":false,"dots":false,"centerMode":false,"focusOnSelect":true,"slidesMargin":10,"slidesToShow":4,"slidesToScroll":1,"asNavFor":".slider-for"}'>
+                                    <li>
+                                        <h:graphicImage url="#{itemP.productImage}" width="88" height="88" alt=""/>
+                                    </li>
+                                    <ui:repeat value="#{productMB.showProductImages(itemP.productID)}" var="imageP1">
+                                        <li>
+                                            <h:graphicImage url="#{imageP1.productImagePath}" width="88" height="88" alt=""/>
+                                        </li>
+                                    </ui:repeat>
+                                </ul>
+                            </div>
+                            <div class="product-attribute">
+                                <h3 class="title">#{itemP.productName}</h3>
+                                <div class="rating">
+                                    <p class="star-rating"><span class="#{feedbackMB.formatRateTotal(feedbackMB.showRateAverageTotal())}"></span></p>
+                                    <span class="review-count">(<h:outputText value="#{feedbackMB.showTotalFeedback()}"/> Feedback)</span>
+                                    <b class="category">By: #{itemP.categoryID.categoryName}</b>
+                                </div>
+                                <span class="sku">Quantity: #{itemP.productQuantity}</span>
+                                <div class="price">
+                                    <ins>
+                                        <span class="price-amount">
+                                            <h:outputText value="#{promotionMB.discountPrice(itemP.productID)}">
+                                                <f:convertNumber locale="en_US" currencySymbol="$" type="currency"/>
+                                            </h:outputText>
+                                        </span>
+                                    </ins>
+                                    <del>
+                                        <span class="price-amount">
+                                            <h:outputText value="#{promotionMB.noDiscountPrice(itemP.productID)}">
+                                                <f:convertNumber locale="en_US" currencySymbol="$" type="currency"/>
+                                            </h:outputText>
+                                        </span>
+                                    </del>
+                                </div>
+                                <div class="shipping-info">
+                                    <p class="shipping-day">Fast delivery in 2 hours</p>
+                                </div>
+                            </div>
+                            <div class="action-form">
+                                <div class="quantity-box">
+                                    <span class="title">Quantity:</span>
+                                    <div class="qty-input">
+                                        <h:form id="changeQuantity">
+                                            <h:commandButton id="resetQuantity" action="#{shoppingCartMB.resetQuantity()}" style="display: none;">
+                                                <f:ajax render="quantity"/>
+                                            </h:commandButton>
+                                            <h:inputText id="quantity" value="#{shoppingCartMB.quantity}" readonly="true"/>
+                                            <h:commandLink class="qty-btn btn-up">
+                                                <f:ajax listener="#{shoppingCartMB.updateQuantity(itemP.productID, true)}" render="quantity"/>
+                                                <i class="fa fa-caret-up" aria-hidden="true"></i>
+                                            </h:commandLink>
+                                            <h:commandLink class="qty-btn btn-down">
+                                                <f:ajax listener="#{shoppingCartMB.updateQuantity(itemP.productID, false)}" render="quantity"/>
+                                                <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                            </h:commandLink>
+                                        </h:form>
+                                    </div>
+                                </div>
+                                <h:form id="actionFrom">
+                                    <div class="buttons">
+                                        <h:commandLink class="btn add-to-cart-btn" action="#{shoppingCartMB.addCart(itemP.productID, customerMB.customer.customerUsername)}" onclick="flydetails('#{customerMB.customer.customerUsername}', this);">
+                                            <f:ajax render="miniTotalAmount miniTotalQuantity miniCart miniCartForm"/>
+                                            <i class="fa fa-cart-arrow-down" aria-hidden="true" style="display: none;"></i>add to cart
+                                        </h:commandLink>
+                                    </div>
+                                </h:form>
+                                <div class="social-media text-center">
+                                    <ul class="social-list">
+                                        <li><a href="https://www.facebook.com/CUSC.CE"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                                        <li><a href="https://www.instagram.com/aptech.cantho/"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                                        <li><a href="https://www.youtube.com/@CUSCAPTECHCHANNEL"><i class="fa fa-youtube" aria-hidden="true"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Tab info -->
+                        <div class="product-tabs single-layout biolife-tab-contain">
+                            <div class="tab-head">
+                                <ul class="tabs">
+                                    <li class="tab-element active"><a href="#tab_1st" class="tab-link">Products Descriptions</a></li>
+                                    <li class="tab-element" ><a href="#tab_2nd" class="tab-link">Shipping &amp; Delivery</a></li>
+                                    <li class="tab-element" ><a href="#tab_3rd" class="tab-link">Customer Feedback <sup><h:outputText value="#{feedbackMB.showTotalFeedback()}"/></sup></a></li>
+                                </ul>
+                            </div>
+                            <div class="tab-content">
+                                <div id="tab_1st" class="tab-contain desc-tab active">
+                                    <h:outputText value="#{itemP.productDescription}"/>
+                                </div>
+                                <div id="tab_2nd" class="tab-contain shipping-delivery-tab">
+                                    <div class="accodition-tab biolife-accodition">
+                                        <ul class="tabs">
+                                            <li class="tab-item">
+                                                <span class="title btn-expand">How long will it take to receive my order?</span>
+                                                <div class="content">
+                                                    <p>Orders placed before 3pm eastern time will normally be processed and shipped by the following business day. For orders received after 3pm, they will generally be processed and shipped on the second business day. For example if you place your order after 3pm on Monday the order will ship on Wednesday. Business days do not include Saturday and Sunday and all Holidays. Please allow additional processing time if you order is placed on a weekend or holiday. Once an order is processed, speed of delivery will be determined as follows based on the shipping mode selected:</p>
+                                                    <div class="desc-expand">
+                                                        <span class="title">Shipping mode</span>
+                                                        <ul class="list">
+                                                            <li>Standard (in transit 3-5 business days)</li>
+                                                            <li>Priority (in transit 2-3 business days)</li>
+                                                            <li>Express (in transit 1-2 business days)</li>
+                                                            <li>Gift Card Orders are shipped via USPS First Class Mail. First Class mail will be delivered within 8 business days</li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="tab-item">
+                                                <span class="title btn-expand">How is the shipping cost calculated?</span>
+                                                <div class="content">
+                                                    <p>You will pay a shipping rate based on the weight and size of the order. Large or heavy items may include an oversized handling fee. Total shipping fees are shown in your shopping cart. Please refer to the following shipping table:</p>
+                                                    <p>Note: Shipping weight calculated in cart may differ from weights listed on product pages due to size and actual weight of the item.</p>
+                                                </div>
+                                            </li>
+                                            <li class="tab-item">
+                                                <span class="title btn-expand">Why Didn’t My Order Qualify for FREE shipping?</span>
+                                                <div class="content">
+                                                    <p>We do not deliver to P.O. boxes or military (APO, FPO, PSC) boxes. We deliver to all 50 states plus Puerto Rico. Certain items may be excluded for delivery to Puerto Rico. This will be indicated on the product page.</p>
+                                                </div>
+                                            </li>
+                                            <li class="tab-item">
+                                                <span class="title btn-expand">Shipping Restrictions?</span>
+                                                <div class="content">
+                                                    <p>We do not deliver to P.O. boxes or military (APO, FPO, PSC) boxes. We deliver to all 50 states plus Puerto Rico. Certain items may be excluded for delivery to Puerto Rico. This will be indicated on the product page.</p>
+                                                </div>
+                                            </li>
+                                            <li class="tab-item">
+                                                <span class="title btn-expand">Undeliverable Packages?</span>
+                                                <div class="content">
+                                                    <p>Occasionally packages are returned to us as undeliverable by the carrier. When the carrier returns an undeliverable package to us, we will cancel the order and refund the purchase price less the shipping charges. Here are a few reasons packages may be returned to us as undeliverable:</p>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div id="tab_3rd" class="tab-contain review-tab">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
+                                                <div class="rating-info">
+                                                    <p class="index">
+                                                        <strong class="rating">
+                                                            <h:outputText value="#{feedbackMB.showRateAverageTotal()}">
+                                                                <f:convertNumber maxFractionDigits="1"/>
+                                                            </h:outputText>
+                                                        </strong>out of 5
+                                                    </p>
+                                                    <div class="rating"><p class="star-rating"><span class="#{feedbackMB.formatRateTotal(feedbackMB.showRateAverageTotal())}"></span></p></div>
+                                                    <p class="see-all">See all <h:outputText value="#{feedbackMB.showTotalFeedback()}"/> feedback</p>
+                                                    <ul class="options">
+                                                        <li>
+                                                            <div class="detail-for">
+                                                                <span class="option-name">5stars</span>
+                                                                <span class="progres">
+                                                                    <span class="line-100percent"><span class="#{feedbackMB.formatRateFeedback(feedbackMB.showRateAverageFeedback(5))}"></span></span>
+                                                                </span>
+                                                                <span class="number"><h:outputText value="#{feedbackMB.showFeedbackRate(5)}"/></span>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="detail-for">
+                                                                <span class="option-name">4stars</span>
+                                                                <span class="progres">
+                                                                    <span class="line-100percent"><span class="#{feedbackMB.formatRateFeedback(feedbackMB.showRateAverageFeedback(4))}"></span></span>
+                                                                </span>
+                                                                <span class="number"><h:outputText value="#{feedbackMB.showFeedbackRate(4)}"/></span>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="detail-for">
+                                                                <span class="option-name">3stars</span>
+                                                                <span class="progres">
+                                                                    <span class="line-100percent"><span class="#{feedbackMB.formatRateFeedback(feedbackMB.showRateAverageFeedback(3))}"></span></span>
+                                                                </span>
+                                                                <span class="number"><h:outputText value="#{feedbackMB.showFeedbackRate(3)}"/></span>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="detail-for">
+                                                                <span class="option-name">2stars</span>
+                                                                <span class="progres">
+                                                                    <span class="line-100percent"><span class="#{feedbackMB.formatRateFeedback(feedbackMB.showRateAverageFeedback(2))}"></span></span>
+                                                                </span>
+                                                                <span class="number"><h:outputText value="#{feedbackMB.showFeedbackRate(2)}"/></span>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="detail-for">
+                                                                <span class="option-name">1star</span>
+                                                                <span class="progres">
+                                                                    <span class="line-100percent"><span class="#{feedbackMB.formatRateFeedback(feedbackMB.showRateAverageFeedback(1))}"></span></span>
+                                                                </span>
+                                                                <span class="number"><h:outputText value="#{feedbackMB.showFeedbackRate(1)}"/></span>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12">
+                                                <div class="review-form-wrapper">
+                                                    <span class="title">Submit your feedback</span>
+                                                    <h:form id="insertFeedback" prependId="false" enctype="multipart/form-data">
+                                                        <div class="comment-form-rating">
+                                                            <label>1. Your rating of this product:
+                                                                <span style="color: red">*</span>
+                                                            </label>
+                                                            <p class="stars">           
+                                                                <span>
+                                                                    <a class="btn-rating" data-value="star-1" href="#" onclick="clickRate(1)"><i class="fa fa-star-o" aria-hidden="true"></i></a>
+                                                                    <a class="btn-rating" data-value="star-2" href="#" onclick="clickRate(2)"><i class="fa fa-star-o" aria-hidden="true"></i></a>
+                                                                    <a class="btn-rating" data-value="star-3" href="#" onclick="clickRate(3)"><i class="fa fa-star-o" aria-hidden="true"></i></a>
+                                                                    <a class="btn-rating" data-value="star-4" href="#" onclick="clickRate(4)"><i class="fa fa-star-o" aria-hidden="true"></i></a>
+                                                                    <a class="btn-rating" data-value="star-5" href="#" onclick="clickRate(5)"><i class="fa fa-star-o" aria-hidden="true"></i></a>
+                                                                </span>
+                                                            </p>
+                                                            <h:inputText value="#{feedbackMB.feedback.feedbackRate}" class="rateValue" style="display: none;"/>
+                                                            <h:outputText value="#{feedbackMB.rateMessage}" class="errorMessage" id="rate_f"/>
+                                                        </div>
+                                                        <p class="form-row">
+                                                            <label>2. Your feedback of this product:
+                                                                <span style="color: red">*</span>
+                                                            </label>
+                                                            <h:inputTextarea id="feedback" cols="30" rows="10" value="#{feedbackMB.feedback.feedbackContent}"/>
+                                                            <h:outputText value="#{feedbackMB.contentMessage}" class="errorMessage" id="content_f"/>
+                                                        </p>
+                                                        <p class="form-row">
+                                                            <h:commandButton action="#{feedbackMB.insertProductFeedback(customerMB.customer)}" disabled="#{feedbackMB.disableButtonSend(customerMB.customer.customerUsername)}" title="#{feedbackMB.setTitle(customerMB.customer.customerUsername)}" style="color: white" class="btn btn-submit btn-bold" type="submit" value="Send">
+                                                                <f:ajax execute="@form" render="rate_f content_f"/>
+                                                            </h:commandButton>
+                                                        </p>
+                                                    </h:form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="comments">
+                                            <ol class="commentlist">
+                                                <c:forEach items="#{feedbackMB.showFeedbackByProduct()}" var="itemFeedback">
+                                                    <li class="review">
+                                                        <div class="comment-container">
+                                                            <div class="row">
+                                                                <div class="comment-content col-lg-8 col-md-9 col-sm-8 col-xs-12">
+                                                                    <p class="comment-in">
+                                                                        <span class="post-date">
+                                                                            <h:outputText value="#{itemFeedback.feedbackDate}">
+                                                                                <f:convertDateTime locale="US" timeZone="GMT+7"/>
+                                                                            </h:outputText>
+                                                                        </span>
+                                                                    </p>
+                                                                    <div class="rating"><p class="star-rating"><span class="#{feedbackMB.formatRate(itemFeedback.feedbackRate)}"></span></p></div>
+                                                                    <p class="author">
+                                                                        by: <b><h:outputText value="#{itemFeedback.customerUsername.customerUsername}"/></b>
+                                                                    </p>
+                                                                    <p class="comment-text">
+                                                                        <h:outputText value="#{itemFeedback.feedbackContent}"/>
+                                                                    </p>
+                                                                    <c:if test="#{feedbackMB.checkDelete(customerMB.customer.customerUsername, itemFeedback.feedbackID)}">
+                                                                        <p>
+                                                                            <h:form>
+                                                                                <h:commandLink action="#{feedbackMB.deleteProductFeedback(itemFeedback.feedbackID)}">
+                                                                                    <i class="fa fa-trash"></i>
+                                                                                </h:commandLink>
+                                                                            </h:form>
+                                                                        </p>
+                                                                    </c:if>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                </c:forEach>
+                                                <!--                                                    </p:column>
+                                                                                                </p:dataTable>-->
+                                            </ol>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- related products -->
+                        <div class="product-related-box single-layout">
+                            <div class="biolife-title-box lg-margin-bottom-26px-im">
+                                <span class="biolife-icon icon-organic"></span>
+                                <span class="subtitle">All the best item for You</span>
+                                <h3 class="main-title">Related Products</h3>
+                            </div>
+                            <h:form>
+                                <ul class="products-list biolife-carousel nav-center-02 nav-none-on-mobile" data-slick='{"rows":1,"arrows":true,"dots":false,"infinite":false,"speed":400,"slidesMargin":0,"slidesToShow":5, "responsive":[{"breakpoint":1200, "settings":{ "slidesToShow": 4}},{"breakpoint":992, "settings":{ "slidesToShow": 3, "slidesMargin":20 }},{"breakpoint":768, "settings":{ "slidesToShow": 2, "slidesMargin":10}}]}'>
+                                    <ui:repeat value="#{productMB.showRelatedProducts(itemP.productID)}" var="itemRP">
+                                        <li class="product-item">
+                                            <div class="contain-product layout-default">
+                                                <div class="product-thumb">
+                                                    <h:link outcome="productdetails" class="link-to-product">
+                                                        <f:param name="id" value="#{itemRP.productID}"/>
+                                                        <h:graphicImage url="#{itemRP.productImage}" width="270" height="270" alt="dd" class="product-thumnail"/>
+                                                    </h:link>
+                                                </div>
+                                                <div class="info">
+                                                    <b class="categories">#{itemRP.categoryID.categoryName}</b>
+                                                    <h4 class="product-title">
+                                                        <h:link outcome="productdetails" class="pr-name">
+                                                            <f:param name="id" value="#{itemRP.productID}"/>
+                                                            <h:outputText value="#{itemRP.productName}"/>
+                                                        </h:link>
+                                                    </h4>
+                                                    <div class="price">
+                                                        <ins>
+                                                            <span class="price-amount">
+                                                                <h:outputText value="#{promotionMB.discountPrice(itemRP.productID)}">
+                                                                    <f:convertNumber locale="en_US" currencySymbol="$" type="currency"/>
+                                                                </h:outputText>
+                                                            </span>
+                                                        </ins>
+                                                        <del>
+                                                            <span class="price-amount">
+                                                                <h:outputText value="#{promotionMB.noDiscountPrice(itemRP.productID)}">
+                                                                    <f:convertNumber locale="en_US" currencySymbol="$" type="currency"/>
+                                                                </h:outputText>
+                                                            </span>
+                                                        </del>
+                                                    </div>
+                                                    <div class="slide-down-box">
+                                                        <p class="message">All products are carefully selected to ensure food safety.</p>
+                                                        <div class="buttons">
+                                                            <h:commandLink class="btn add-to-cart-btn" action="#{shoppingCartMB.addCartProduct(itemRP.productID, 1, customerMB.customer.customerUsername)}" onclick="fly('#{customerMB.customer.customerUsername}', this);">
+                                                                <f:ajax render="miniTotalAmount miniTotalQuantity miniCart miniCartForm"/>
+                                                                <i class="fa fa-cart-arrow-down" aria-hidden="true"></i>add to cart
+                                                            </h:commandLink>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ui:repeat>
+                                </ul>
+                            </h:form>
+                        </div>
+                    </ui:repeat>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>

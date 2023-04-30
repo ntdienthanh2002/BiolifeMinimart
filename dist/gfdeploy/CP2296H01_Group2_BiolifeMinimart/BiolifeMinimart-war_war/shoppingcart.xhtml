@@ -1,0 +1,203 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./templates/biolifeTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <f:metadata>
+        <f:event type="preRenderView" listener="#{customerMB.checkLogin()}"/>
+    </f:metadata>
+    <ui:define name="content">
+        <!--Hero Section-->
+        <div class="hero-section hero-background">
+            <h1 class="page-title">Shopping Cart</h1>
+        </div>
+
+        <!--Navigation section-->
+        <div class="container">
+            <nav class="biolife-nav">
+                <ul>
+                    <li class="nav-item">
+                        <h:link outcome="index" class="permal-link" value="Home"/>
+                    </li>
+                    <li class="nav-item"><span class="current-page">Shopping Cart</span></li>
+                </ul>
+            </nav>
+        </div>
+
+        <!--<h:panelGroup id="updateCart">-->
+        <div class="page-contain shopping-cart">
+            <!-- Main content -->
+            <div id="main-content" class="main-content">
+                <div class="container">
+
+                    <!--Cart Table-->
+                    <div class="shopping-cart-container">
+                        <div class="row">
+                            <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+                                <h3 class="box-title">Your cart items</h3>
+                                <h:form id="listCart">
+                                    <table class="shop_table cart-form">
+                                        <thead>
+                                            <tr>
+                                                <th class="product-name">Product Name</th>
+                                                <th class="product-price">Price</th>
+                                                <th class="product-quantity">Quantity</th>
+                                                <th class="product-subtotal">Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <ui:repeat value="#{shoppingCartMB.showCart()}" var="itemCart" id="cart" varStatus="status">
+                                                <tr class="cart_item elementShopping" id="shopping#{status.index}">
+
+                                                    <td class="product-thumbnail" data-title="Product Name">
+                                                        <h:link outcome="productdetails" class="prd-thumb">
+                                                            <f:param name="id" value="#{itemCart.proID}"/>
+                                                            <figure>
+                                                                <h:graphicImage url="#{itemCart.image}" width="113" height="113" alt="shopping cart"/>
+                                                            </figure>
+                                                        </h:link>
+                                                        <h:link outcome="productdetails" class="prd-name">
+                                                            <f:param name="id" value="#{itemCart.proID}"/>
+                                                            <h:outputText value="#{itemCart.proName}"/>
+                                                        </h:link>
+                                                        <div class="action">
+                                                            <h:commandLink id="btnRemove" onclick="removeCart(#{status.index});" class="remove">
+                                                                <f:ajax/>
+                                                                <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                                            </h:commandLink>
+                                                            <h:commandLink id="btnRemoveCart" class="btnRemove" style="display: none;">
+                                                                <f:ajax event="click" listener="#{shoppingCartMB.removeCart(itemCart.proID)}" render="miniCartForm listCart total totalQuantity totalSaving miniTotalAmount miniTotalQuantity miniCart"/>
+                                                            </h:commandLink>
+                                                        </div>
+                                                    </td>
+                                                    <td class="product-price" data-title="Price">
+                                                        <div class="price price-contain">
+                                                            <ins>
+                                                                <span class="price-amount">
+                                                                    <h:outputText value="#{promotionMB.discountPrice(itemCart.proID)}">
+                                                                        <f:convertNumber locale="en_US" currencySymbol="$" type="currency"/>
+                                                                    </h:outputText>
+                                                                </span>
+                                                            </ins>
+                                                            <del>
+                                                                <span class="price-amount">
+                                                                    <h:outputText value="#{promotionMB.noDiscountPrice(itemCart.proID)}">
+                                                                        <f:convertNumber locale="en_US" currencySymbol="$" type="currency"/>
+                                                                    </h:outputText>
+                                                                </span>
+                                                            </del>
+                                                        </div>
+                                                    </td>
+                                                    <td class="product-quantity" data-title="Quantity">
+                                                        <div class="quantity-box type1">
+                                                            <div class="qty-input">
+                                                                <h:inputText id="quantity" value="#{itemCart.quantity}" readonly="true"/>
+                                                                <h:message for="quantity" class="errorMessage" id="quantity_m"/>
+                                                                <h:commandLink class="qty-btn btn-up" onclick="plusCart(#{status.index});">
+                                                                    <f:ajax/>
+                                                                    <i class="fa fa-caret-up" aria-hidden="true"></i>
+                                                                </h:commandLink>
+                                                                <h:commandLink id="btnUp" class="btnUp" style="display: none;" rendered="true">
+                                                                    <f:ajax listener="#{shoppingCartMB.updateCart(itemCart.proID, true)}" render="miniCartForm miniCart listCart:cart:#{status.index}:quantity listCart:cart:#{status.index}:totalAmount listCart:cart:#{status.index}:dealAmount total totalQuantity totalSaving miniTotalAmount miniTotalQuantity shoppingBtn"/>
+                                                                </h:commandLink>
+                                                                <h:commandLink class="qty-btn btn-down" onclick="minusCart(#{status.index});">
+                                                                    <f:ajax/>
+                                                                    <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                                                </h:commandLink>
+                                                                <h:commandLink id="btnDown" class="btnDown" style="display: none;" rendered="true">
+                                                                    <f:ajax listener="#{shoppingCartMB.updateCart(itemCart.proID, false)}" render="miniCartForm miniCart listCart:cart:#{status.index}:quantity listCart:cart:#{status.index}:totalAmount listCart:cart:#{status.index}:dealAmount total totalQuantity totalSaving miniTotalAmount miniTotalQuantity shoppingBtn"/>
+                                                                </h:commandLink>
+                                                                <h:inputText id="maxQuantity" value="#{productMB.getProductQuantity(itemCart.proID)}" readonly="true" style="display: none;"/>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="product-subtotal" data-title="Total" style="min-width: 120px;">
+                                                        <div class="price price-contain">
+                                                            <ins>
+                                                                <span class="price-amount">
+                                                                    <h:outputText id="dealAmount" value="#{shoppingCartMB.dealTotalAmount(promotionMB.discountPrice(itemCart.proID), itemCart.quantity)}">
+                                                                        <f:convertNumber locale="en_US" currencySymbol="$" type="currency"/>
+                                                                    </h:outputText>
+                                                                </span>
+                                                            </ins>
+                                                            <del>
+                                                                <span class="price-amount">
+                                                                    <h:outputText id="totalAmount" value="#{shoppingCartMB.dealTotalAmount(promotionMB.noDiscountPrice(itemCart.proID), itemCart.quantity)}">
+                                                                        <f:convertNumber locale="en_US" currencySymbol="$" type="currency"/>
+                                                                    </h:outputText>
+                                                                </span>
+                                                            </del>
+                                                        </div>
+                                                        <h:commandButton id="shoppingBtn" onclick="getShoppingCart('#{itemCart.proName}', '#{shoppingCartMB.formatPrice(promotionMB.discountPrice(itemCart.proID))}', #{itemCart.quantity}, '#{shoppingCartMB.formatPrice(shoppingCartMB.dealTotalAmount(promotionMB.discountPrice(itemCart.proID), itemCart.quantity))}')" style="display: none;">
+                                                            <f:ajax/>
+                                                        </h:commandButton>
+                                                    </td>
+                                                </tr>
+                                            </ui:repeat>
+                                            <h:panelGroup id="noCart" rendered="#{shoppingCartMB.countCart() > 0 ? 'false' : 'true'}">
+                                                <tr class="minicart-empty" style="border: none;">
+                                                    <td colspan="4">
+                                                        No product in your cart
+                                                    </td>
+                                                </tr>
+                                            </h:panelGroup>
+                                            <tr class="cart_item wrap-buttons" style="border: none;">
+                                                <td class="wrap-btn-control" colspan="4">
+                                                    <h:link outcome="products" class="btn back-to-shop" style="margin-top: 10px;" value="Back to Shop">
+                                                        <f:param name="category" value="0"/>
+                                                        <f:param name="page" value="1"/>
+                                                    </h:link>
+                                                    <h:commandLink class="btn btn-clear" value="clear all" onclick="clearCart();" id="btnEmpty">
+                                                        <f:ajax/>
+                                                    </h:commandLink>
+                                                    <h:commandLink id="btnEmptyCart" class="btnRemove" style="display: none;">
+                                                        <f:ajax event="click" listener="#{shoppingCartMB.emptyCart()}" render="miniCartForm listCart total totalQuantity totalSaving miniTotalAmount miniTotalQuantity miniCart"/>
+                                                    </h:commandLink>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </h:form>
+                            </div>
+
+                            <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+                                <div class="shpcart-subtotal-block">
+                                    <div class="subtotal-line">
+                                        <b class="stt-name">Subtotal <span class="sub">(<h:outputText id="totalQuantity" value="#{shoppingCartMB.totalQuantity}"/> items)</span></b>
+                                        <span class="stt-price">
+                                            <h:outputText id="total" value="#{shoppingCartMB.totalDealAmount}">
+                                                <f:convertNumber locale="en_US" currencySymbol="$" type="currency"/>
+                                            </h:outputText>
+                                        </span>
+                                    </div>
+                                    <div class="subtotal-line">
+                                        <b class="stt-name">Saving</b>
+                                        <span class="stt-price">
+                                            <h:outputText id="totalSaving" value="#{shoppingCartMB.totalAmount - shoppingCartMB.totalDealAmount}">
+                                                <f:convertNumber locale="en_US" currencySymbol="$" type="currency"/>
+                                            </h:outputText>
+                                        </span>
+                                    </div>
+                                    <div class="tax-fee">
+                                        <p class="title">Fast delivery in 2 hours</p>
+                                    </div>
+                                    <div class="btn-checkout">
+                                        <h:form style="margin-bottom: 0px;">
+                                            <h:commandLink action="#{shoppingCartMB.loadCheckOut(customerMB.customer)}" class="btn checkout" value="Check Out"/>
+                                        </h:form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--</h:panelGroup>-->
+    </ui:define>
+
+</ui:composition>

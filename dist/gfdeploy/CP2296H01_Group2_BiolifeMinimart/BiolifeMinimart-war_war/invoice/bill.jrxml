@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.19.1.final using JasperReports Library version 6.19.1-867c00bf88cd4d784d404379d6c05e1b419e8a4c  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Invoice" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="1971e3f4-8a32-41fa-a7fd-1f269e5c7d04">
+    <property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+    <style name="Table_TH" mode="Opaque" backcolor="#2065a8">
+        <box>
+            <topPen lineWidth="0.5" lineColor="#2065a8"/>
+            <bottomPen lineWidth="0.5" lineColor="#2065a8"/>
+        </box>
+    </style>
+    <style name="Table_CH" mode="Opaque" backcolor="#2065a8">
+        <box>
+            <topPen lineWidth="0.5" lineColor="#2065a8"/>
+            <bottomPen lineWidth="0.5" lineColor="#2065a8"/>
+        </box>
+    </style>
+    <style name="Table_TD" mode="Opaque" backcolor="#e8efff">
+        <box>
+            <topPen lineWidth="0.5" lineColor="#c8ced6"/>
+            <bottomPen lineWidth="0.5" lineColor="#c8ced6"/>
+        </box>
+    </style>
+    <style name="Table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+        <box>
+            <pen lineWidth="0.5" lineColor="#000000"/>
+            <topPen lineWidth="0.5" lineColor="#000000"/>
+            <leftPen lineWidth="0.5" lineColor="#000000"/>
+            <bottomPen lineWidth="0.5" lineColor="#000000"/>
+            <rightPen lineWidth="0.5" lineColor="#000000"/>
+        </box>
+    </style>
+    <style name="Table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+        <box>
+            <pen lineWidth="0.5" lineColor="#000000"/>
+            <topPen lineWidth="0.5" lineColor="#000000"/>
+            <leftPen lineWidth="0.5" lineColor="#000000"/>
+            <bottomPen lineWidth="0.5" lineColor="#000000"/>
+            <rightPen lineWidth="0.5" lineColor="#000000"/>
+        </box>
+    </style>
+    <style name="Table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+        <box>
+            <pen lineWidth="0.5" lineColor="#000000"/>
+            <topPen lineWidth="0.5" lineColor="#000000"/>
+            <leftPen lineWidth="0.5" lineColor="#000000"/>
+            <bottomPen lineWidth="0.5" lineColor="#000000"/>
+            <rightPen lineWidth="0.5" lineColor="#000000"/>
+        </box>
+    </style>
+    <style name="Table 2_TH" mode="Opaque" backcolor="#F0F8FF">
+        <box>
+            <pen lineWidth="0.5" lineColor="#000000"/>
+            <topPen lineWidth="0.5" lineColor="#000000"/>
+            <leftPen lineWidth="0.5" lineColor="#000000"/>
+            <bottomPen lineWidth="0.5" lineColor="#000000"/>
+            <rightPen lineWidth="0.5" lineColor="#000000"/>
+        </box>
+    </style>
+    <style name="Table 2_CH" mode="Opaque" backcolor="#BFE1FF">
+        <box>
+            <pen lineWidth="0.5" lineColor="#000000"/>
+            <topPen lineWidth="0.5" lineColor="#000000"/>
+            <leftPen lineWidth="0.5" lineColor="#000000"/>
+            <bottomPen lineWidth="0.5" lineColor="#000000"/>
+            <rightPen lineWidth="0.5" lineColor="#000000"/>
+        </box>
+    </style>
+    <style name="Table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+        <box>
+            <pen lineWidth="0.5" lineColor="#000000"/>
+            <topPen lineWidth="0.5" lineColor="#000000"/>
+            <leftPen lineWidth="0.5" lineColor="#000000"/>
+            <bottomPen lineWidth="0.5" lineColor="#000000"/>
+            <rightPen lineWidth="0.5" lineColor="#000000"/>
+        </box>
+    </style>
+    <subDataset name="InvoiceDataset" uuid="91475463-dd4a-4241-9c54-1b5094802339">
+        <queryString>
+			<![CDATA[]]>
+        </queryString>
+        <field name="no" class="java.lang.Integer"/>
+        <field name="itemName" class="java.lang.String"/>
+        <field name="unitPrice" class="java.lang.String"/>
+        <field name="qty" class="java.lang.Integer"/>
+        <field name="discount" class="java.lang.String"/>
+        <field name="total" class="java.lang.String"/>
+    </subDataset>
+    <parameter name="ProductDetailParam" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
+    <parameter name="cusName" class="java.lang.String"/>
+    <parameter name="cusPhone" class="java.lang.String"/>
+    <parameter name="cusEmail" class="java.lang.String"/>
+    <parameter name="invoiceNo" class="java.lang.String"/>
+    <parameter name="invoiceDate" class="java.lang.String"/>
+    <parameter name="totalAmount" class="java.lang.String"/>
+    <parameter name="receiver" class="java.lang.String"/>
+    <parameter name="phone" class="java.lang.String"/>
+    <parameter name="address" class="java.lang.String"/>
+    <parameter name="imageBio" class="java.lang.String"/>
+    <queryString>
+		<![CDATA[]]>
+    </queryString>
+    <background>
+        <band splitType="Stretch"/>
+    </background>
+    <title>
+        <band height="180" splitType="Stretch">
+            <staticText>
+                <reportElement x="0" y="100" width="330" height="20" forecolor="#636363" uuid="db1940d7-834d-407f-b051-cdd3fb4f0988"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="Times New Roman" size="12" isBold="false" pdfFontName="..\..\resources\fonts\times.ttf" pdfEncoding="Identity-H"/>
+                    <paragraph lineSpacingSize="1.0"/>
+                </textElement>
+                <text><![CDATA[1 Ly Tu Trong Street, An Phu Ward, Ninh Kieu District, Can Tho City]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="0" y="22" width="110" height="37" forecolor="#000000" uuid="d586fccf-6511-4252-9915-e88a4f847415"/>
+                <textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" markup="none">
+                    <font fontName="Times New Roman" size="22" isBold="true" pdfFontName="..\..\resources\fonts\timesbd.ttf"/>
+                </textElement>
+                <text><![CDATA[INVOICE]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="0" y="120" width="130" height="20" forecolor="#636363" uuid="9f5b93b9-ee22-4107-805c-b05c829e1e12"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="Times New Roman" size="12" isBold="false" pdfFontName="Times-Roman"/>
+                    <paragraph lineSpacingSize="1.0"/>
+                </textElement>
+                <text><![CDATA[0292 373 1072]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="0" y="140" width="140" height="20" forecolor="#636363" uuid="6512ce0f-a981-4967-b3d0-52279e527af9"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="Times New Roman" size="12" isBold="false" pdfFontName="Times-Roman"/>
+                    <paragraph lineSpacingSize="1.0"/>
+                </textElement>
+                <text><![CDATA[biolifeminimart@gmail.com]]></text>
+            </staticText>
+            <image>
+                <reportElement x="400" y="20" width="150" height="40" uuid="2a25bfb4-fb3b-429e-af12-7d08de150079"/>
+                <imageExpression><![CDATA[$P{imageBio}]]></imageExpression>
+            </image>
+            <staticText>
+                <reportElement x="0" y="80" width="168" height="20" forecolor="#000000" uuid="e53325af-ab10-4919-b241-d8182f02654a"/>
+                <textElement textAlignment="Left" verticalAlignment="Middle">
+                    <font fontName="Times New Roman" size="14" isBold="true" pdfFontName="Times-Roman"/>
+                </textElement>
+                <text><![CDATA[Biolife Minimart]]></text>
+            </staticText>
+            <!--			<staticText>
+                    <reportElement x="340" y="80" width="80" height="20" forecolor="#636363" uuid="3868b185-c4a4-4838-b304-a06f4b202a35"/>
+                    <textElement verticalAlignment="Middle">
+                            <font fontName="Times New Roman" size="12" isBold="true" pdfFontName="Times-Roman"/>
+                    </textElement>
+                    <text><![CDATA[Invoice No.:]]></text>
+            </staticText>-->
+            <textField evaluationTime="Report">
+                <reportElement x="430" y="80" width="120" height="20" forecolor="#000000" uuid="9c19e898-e9e9-4d9e-ab2d-dbb44648c7c8"/>
+                <box bottomPadding="1">
+                    <pen lineColor="#cbd1da"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#cbd1da"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Times New Roman" size="12" pdfFontName="Times-Roman"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{invoiceNo}]]></textFieldExpression>
+            </textField>
+            <!--			<staticText>
+                    <reportElement x="340" y="100" width="80" height="20" forecolor="#636363" uuid="e8515763-3ed6-445a-9e8c-7e6ff8682b34"/>
+                    <textElement verticalAlignment="Middle">
+                            <font fontName="Times New Roman" size="12" isBold="true" pdfFontName="Times-Roman"/>
+                    </textElement>
+                    <text><![CDATA[Invoice Date:]]></text>
+            </staticText>-->
+            <textField evaluationTime="Report">
+                <reportElement x="430" y="110" width="120" height="20" forecolor="#000000" uuid="9ac0fcc5-ee97-4f93-9eeb-3a5dabaf7cbf"/>
+                <box bottomPadding="1">
+                    <pen lineColor="#cbd1da"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#cbd1da"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Times New Roman" size="12" pdfFontName="Times-Roman"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{invoiceDate}]]></textFieldExpression>
+            </textField>
+        </band>
+    </title>
+    <pageHeader>
+        <band splitType="Stretch"/>
+    </pageHeader>
+    <columnHeader>
+        <band height="100" splitType="Stretch">
+            <staticText>
+                <reportElement x="0" y="0" width="130" height="20" forecolor="#000000" uuid="3e969a5d-ebd4-4209-b219-dead11427eb6"/>
+                <textElement textAlignment="Left" verticalAlignment="Middle">
+                    <font fontName="Times New Roman" size="12" isBold="true" pdfFontName="..\..\resources\fonts\timesbd.ttf"/>
+                </textElement>
+                <text><![CDATA[BILL TO]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="0" y="20" width="70" height="20" forecolor="#636363" uuid="71886f2c-0b73-425b-afd7-8efbe4e947c9"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="Times New Roman" size="12" isBold="true" pdfFontName="Times-Roman"/>
+                </textElement>
+                <text><![CDATA[Full Name:]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="0" y="60" width="70" height="20" forecolor="#636363" uuid="b4f6dd32-1f35-43de-9524-e05cc71c9691"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="Times New Roman" size="12" isBold="true" pdfFontName="Times-Roman"/>
+                </textElement>
+                <text><![CDATA[Email:]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="280" y="0" width="130" height="20" forecolor="#000000" uuid="9b14a150-f40f-4f10-a66c-843e36d0faf9"/>
+                <textElement textAlignment="Left" verticalAlignment="Middle">
+                    <font fontName="Times New Roman" size="12" isBold="true" pdfFontName="..\..\resources\fonts\timesbd.ttf"/>
+                </textElement>
+                <text><![CDATA[SHIP TO]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="280" y="20" width="70" height="20" forecolor="#636363" uuid="546931c9-bafa-4f52-998f-62eec4647e33"/>
+                <textElement textAlignment="Left" verticalAlignment="Middle">
+                    <font fontName="Times New Roman" size="12" isBold="true" pdfFontName="Times-Roman"/>
+                </textElement>
+                <text><![CDATA[Receiver:]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="280" y="60" width="70" height="20" forecolor="#636363" uuid="7b859494-7d4a-4f66-b591-d39bf218ec08"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="Times New Roman" size="12" isBold="true" pdfFontName="Times-Roman"/>
+                </textElement>
+                <text><![CDATA[Address:]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="280" y="40" width="70" height="20" forecolor="#636363" uuid="0bdf581c-b085-4d85-9e03-3936bea07b5f"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="Times New Roman" size="12" isBold="true" pdfFontName="Times-Roman"/>
+                </textElement>
+                <text><![CDATA[Phone:]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="70" y="20" width="210" height="20" uuid="bce627db-be60-49d3-bf88-fcd65039abf8"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="Times New Roman" size="12" pdfFontName="Times-Roman"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{cusName}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="70" y="60" width="210" height="20" uuid="cb9aa950-bd47-40df-a8cc-2f1132087133"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="Times New Roman" size="12" pdfFontName="Times-Roman"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{cusEmail}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="350" y="20" width="200" height="20" uuid="3dcddc07-795f-4444-a6f2-089473322cc5"/>
+                <textElement textAlignment="Left" verticalAlignment="Middle">
+                    <font fontName="Times New Roman" size="12" pdfFontName="Times-Roman"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{receiver}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="350" y="40" width="200" height="20" uuid="57ca86c2-1dc1-4610-810e-b0f4ba406531"/>
+                <textElement textAlignment="Left" verticalAlignment="Middle">
+                    <font fontName="Times New Roman" size="12" pdfFontName="Times-Roman"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{phone}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="350" y="63" width="200" height="35" uuid="6725d9cb-2925-44d9-986e-94e500eadc7d"/>
+                <textElement textAlignment="Left" verticalAlignment="Top">
+                    <font fontName="Times New Roman" size="12" pdfFontName="C:\Windows\Fonts\times.ttf" pdfEncoding="Identity-H"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{address}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="0" y="40" width="70" height="20" forecolor="#636363" uuid="489cd91f-84b6-48d8-9336-7cc56eb2e68e"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="Times New Roman" size="12" isBold="true" pdfFontName="Times-Roman"/>
+                </textElement>
+                <text><![CDATA[Phone:]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="70" y="40" width="210" height="20" uuid="0f492f65-6204-4878-b12f-a9381f1b8ce1"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="Times New Roman" size="12" pdfFontName="Times-Roman"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{cusPhone}]]></textFieldExpression>
+            </textField>
+        </band>
+    </columnHeader>
+    <detail>
+        <band height="90" splitType="Stretch">
+            <componentElement>
+                <reportElement x="0" y="30" width="550" height="60" uuid="76eb703b-20cf-4afe-aed0-ba84efe30a2a">
+                    <property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+                    <property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+                    <property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+                    <property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+                </reportElement>
+                <jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+                    <datasetRun subDataset="InvoiceDataset" uuid="9f1fadba-ff8c-461e-a802-ef90b19ac035">
+                        <dataSourceExpression><![CDATA[$P{ProductDetailParam}]]></dataSourceExpression>
+                    </datasetRun>
+                    <jr:column width="40" uuid="7b8ac688-f7a5-4261-98f9-5392c088a8a8">
+                        <property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+                        <jr:tableHeader style="Table_TH" height="30" rowSpan="1">
+                            <staticText>
+                                <reportElement x="0" y="0" width="40" height="30" forecolor="#FFFFFF" uuid="ad7ce6b0-337e-4024-b855-cc93f608f797"/>
+                                <textElement textAlignment="Center" verticalAlignment="Middle">
+                                    <font fontName="Times New Roman" size="12" isBold="true" pdfFontName="..\..\resources\fonts\timesbd.ttf"/>
+                                </textElement>
+                                <text><![CDATA[No.]]></text>
+                            </staticText>
+                        </jr:tableHeader>
+                        <jr:detailCell style="Table_TD" height="30">
+                            <textField>
+                                <reportElement x="0" y="0" width="40" height="30" uuid="b3c2b3e3-9da6-4e1e-9d26-2b458846631b"/>
+                                <textElement textAlignment="Center" verticalAlignment="Middle">
+                                    <font fontName="Times New Roman" size="12" pdfFontName="Times-Roman"/>
+                                </textElement>
+                                <textFieldExpression><![CDATA[$F{no}]]></textFieldExpression>
+                            </textField>
+                        </jr:detailCell>
+                    </jr:column>
+                    <jr:column width="240" uuid="e1508301-e93f-463b-a66f-9e3c884398a1">
+                        <property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+                        <jr:tableHeader style="Table_TH" height="30" rowSpan="1">
+                            <staticText>
+                                <reportElement x="0" y="0" width="240" height="30" forecolor="#FFFFFF" uuid="8436dd12-d65e-45a2-ae48-dafedffe45e5"/>
+                                <textElement textAlignment="Center" verticalAlignment="Middle">
+                                    <font fontName="Times New Roman" size="12" isBold="true" pdfFontName="..\..\resources\fonts\timesbd.ttf"/>
+                                </textElement>
+                                <text><![CDATA[Item Name]]></text>
+                            </staticText>
+                        </jr:tableHeader>
+                        <jr:detailCell style="Table_TD" height="30">
+                            <textField>
+                                <reportElement x="0" y="0" width="240" height="30" uuid="b3e10af8-12af-4db0-b13c-ca91c3ee57a0">
+                                    <property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+                                </reportElement>
+                                <textElement textAlignment="Left" verticalAlignment="Middle">
+                                    <font fontName="Times New Roman" size="12" pdfFontName="Times-Roman"/>
+                                    <paragraph leftIndent="5"/>
+                                </textElement>
+                                <textFieldExpression><![CDATA[$F{itemName}]]></textFieldExpression>
+                            </textField>
+                        </jr:detailCell>
+                    </jr:column>
+                    <jr:column width="80" uuid="9cf8f6ba-adfa-46dd-a07d-60c36b7a4b2a">
+                        <property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+                        <jr:tableHeader style="Table_TH" height="30" rowSpan="1">
+                            <staticText>
+                                <reportElement x="0" y="0" width="80" height="30" forecolor="#FFFFFF" uuid="5f484ab0-258d-4805-9fb3-0e0cd7662fcc"/>
+                                <textElement textAlignment="Right" verticalAlignment="Middle">
+                                    <font fontName="Times New Roman" size="12" isBold="true" pdfFontName="..\..\resources\fonts\timesbd.ttf"/>
+                                </textElement>
+                                <text><![CDATA[Quantity]]></text>
+                            </staticText>
+                        </jr:tableHeader>
+                        <jr:detailCell style="Table_TD" height="30">
+                            <textField>
+                                <reportElement x="0" y="0" width="80" height="30" uuid="b4f8876d-2753-4be4-8b1d-2d58935a64dc"/>
+                                <textElement textAlignment="Right" verticalAlignment="Middle">
+                                    <font fontName="Times New Roman" size="12" pdfFontName="Times-Roman"/>
+                                </textElement>
+                                <textFieldExpression><![CDATA[$F{qty}]]></textFieldExpression>
+                            </textField>
+                        </jr:detailCell>
+                    </jr:column>
+                    <jr:column width="60" uuid="ec0cf2d9-7ed5-45ea-8b10-7572f559dd3e">
+                        <property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+                        <jr:tableHeader style="Table_TH" height="30" rowSpan="1">
+                            <staticText>
+                                <reportElement x="0" y="0" width="60" height="30" forecolor="#FFFFFF" uuid="358e2c88-1242-4734-b534-de682f2a45e0"/>
+                                <textElement textAlignment="Center" verticalAlignment="Middle">
+                                    <font fontName="Times New Roman" size="12" isBold="true" pdfFontName="..\..\resources\fonts\timesbd.ttf"/>
+                                </textElement>
+                                <text><![CDATA[Price]]></text>
+                            </staticText>
+                        </jr:tableHeader>
+                        <jr:detailCell style="Table_TD" height="30">
+                            <textField>
+                                <reportElement x="0" y="0" width="60" height="30" uuid="428fedf5-74c2-4c92-94ed-2682c43f8b06"/>
+                                <textElement textAlignment="Right" verticalAlignment="Middle">
+                                    <font fontName="Times New Roman" size="12" pdfFontName="Times-Roman"/>
+                                </textElement>
+                                <textFieldExpression><![CDATA[$F{unitPrice}]]></textFieldExpression>
+                            </textField>
+                        </jr:detailCell>
+                    </jr:column>
+                    <jr:column width="50" uuid="40a9dbe5-eb03-4aa3-acf3-18239cf4e998">
+                        <property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
+                        <jr:tableHeader style="Table_TH" height="30" rowSpan="1">
+                            <staticText>
+                                <reportElement x="0" y="0" width="50" height="30" forecolor="#FFFFFF" uuid="f82511ec-92ab-41ab-b5fd-5c0bf719377e"/>
+                                <textElement textAlignment="Center" verticalAlignment="Middle">
+                                    <font fontName="Times New Roman" size="12" isBold="true" pdfFontName="..\..\resources\fonts\timesbd.ttf"/>
+                                </textElement>
+                                <text><![CDATA[Discount]]></text>
+                            </staticText>
+                        </jr:tableHeader>
+                        <jr:detailCell style="Table_TD" height="30">
+                            <textField>
+                                <reportElement x="0" y="0" width="50" height="30" uuid="1d8c46f3-0caf-4e58-987f-1257f95e8a1b"/>
+                                <textElement textAlignment="Right" verticalAlignment="Middle">
+                                    <font fontName="Times New Roman" size="12" pdfFontName="Times-Roman"/>
+                                </textElement>
+                                <textFieldExpression><![CDATA[$F{discount}]]></textFieldExpression>
+                            </textField>
+                        </jr:detailCell>
+                    </jr:column>
+                    <jr:column width="80" uuid="40a9dbe5-eb03-4aa3-acf3-18239cf4e998">
+                        <property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
+                        <jr:tableHeader style="Table_TH" height="30" rowSpan="1">
+                            <staticText>
+                                <reportElement x="0" y="0" width="80" height="30" forecolor="#FFFFFF" uuid="f82511ec-92ab-41ab-b5fd-5c0bf719377e"/>
+                                <textElement textAlignment="Center" verticalAlignment="Middle">
+                                    <font fontName="Times New Roman" size="12" isBold="true" pdfFontName="..\..\resources\fonts\timesbd.ttf"/>
+                                </textElement>
+                                <text><![CDATA[Total]]></text>
+                            </staticText>
+                        </jr:tableHeader>
+                        <jr:detailCell style="Table_TD" height="30">
+                            <textField>
+                                <reportElement x="0" y="0" width="80" height="30" uuid="1d8c46f3-0caf-4e58-987f-1257f95e8a1b"/>
+                                <textElement textAlignment="Right" verticalAlignment="Middle">
+                                    <font fontName="Times New Roman" size="12" pdfFontName="Times-Roman"/>
+                                </textElement>
+                                <textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+                            </textField>
+                        </jr:detailCell>
+                    </jr:column>
+                </jr:table>
+            </componentElement>
+        </band>
+    </detail>
+    <columnFooter>
+        <band height="99" splitType="Stretch">
+            <staticText>
+                <reportElement x="420" y="5" width="50" height="20" uuid="aff2802d-fc1d-49b5-ac4e-c73f9ffaaeda"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font fontName="Times New Roman" size="12" isBold="true" pdfFontName="..\..\resources\fonts\timesbd.ttf"/>
+                </textElement>
+                <text><![CDATA[TOTAL]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="470" y="0" width="80" height="29" uuid="fadea9d4-db1c-4a43-82f8-90a9d8ab0d10"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font fontName="Times New Roman" size="16" isBold="true" pdfFontName="..\..\resources\fonts\timesbd.ttf"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{totalAmount}]]></textFieldExpression>
+            </textField>
+        </band>
+    </columnFooter>
+    <pageFooter>
+        <band splitType="Stretch"/>
+    </pageFooter>
+    <summary>
+        <band height="42" splitType="Stretch"/>
+    </summary>
+</jasperReport>

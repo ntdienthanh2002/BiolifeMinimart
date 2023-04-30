@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../templates/adminTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <div class="content-body">
+            <div class="container-fluid">
+                <div class="page-titles">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active"><a href="javascript:void(0)">Manage Receiver</a></li>
+                    </ol>
+                </div>
+                <!-- row -->
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">List of Receiver</h4>
+                                <a href="customer_all.xhtml" class="btn btn-rounded btn-info">
+                                    <span class="btn-icon-left text-info"><i class="fa fa-arrow-left color-info"></i></span>
+                                    Back
+                                </a>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="example4" class="display min-w850">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Username</th>
+                                                <th>Name</th>
+                                                <th>Phone Number</th>
+                                                <th>Address</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <c:forEach items="#{receiverMB.showReceiverByCustomer()}" var="itemReceiver">
+                                                <tr>
+                                                    <td>
+                                                        <h:outputText value="#{itemReceiver.receiverID}"/>
+                                                    </td>
+                                                    <td>
+                                                        <h:outputText value="#{itemReceiver.customerUsername.customerUsername}"/>
+                                                    </td>
+                                                    <td>
+                                                        <h:outputText value="#{itemReceiver.receiverName}"/>
+                                                    </td>
+                                                    <td>
+                                                        <h:outputText value="#{itemReceiver.receiverPhone}"/>
+                                                    </td>
+                                                    <td>
+                                                        <h:outputText value="#{itemReceiver.receiverAddress}"/>
+                                                    </td>
+                                                    <td>
+                                                        <h:form>
+                                                            <h:commandLink class="badge light #{receiverMB.buttonStatus(itemReceiver.receiverID)}" value="#{receiverMB.formatStatus(itemReceiver.receiverID)}" disabled="true"/>
+                                                        </h:form>
+                                                    </td>
+                                                </tr>
+                                            </c:forEach>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>
